@@ -1,0 +1,13 @@
+{
+    "version": 2,
+    "name": "GitHub",
+    "builds": [
+        { "src": "/*.go", "use": "@now/go" }
+        
+    ],
+    "routes": [
+        { "src": "/api/v1/github/user", "dest": "user.go" },
+        { "src": "/api/v1/github/repo/list", "dest": "list.go" }
+      
+    ]
+}
