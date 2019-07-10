@@ -44,7 +44,7 @@ func Search(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	client := NewUserClient(nil)
+	client := NewSeaClient(nil)
 	ctx := context.Background()
 
 	Options := gg.ListOptions{Page: 1, PerPage: 10}
