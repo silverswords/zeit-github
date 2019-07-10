@@ -2,7 +2,6 @@ package github
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 
 	gg "github.com/google/go-github/github"
@@ -27,6 +26,7 @@ func NewSeaClient(g *http.Client) *SeaClient {
 func Search(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
+			Key  string `zeit:"required"`
 			Sort string `zeit:"required"`
 		}
 	)
@@ -47,14 +47,14 @@ func Search(w http.ResponseWriter, r *http.Request) {
 	client := NewUserClient(nil)
 	ctx := context.Background()
 
-	Options := gg.ListOptions{Page: 2, PerPage: 2}
-	opts := &gg.SearchOptions{Sort: "fork", Order: "desc", ListOptions: Options}
-	fmt.Println(opts)
+	Options := gg.ListOptions{Page: 1, PerPage: 10}
+	opts := &gg.SearchOptions{Sort: github.Sort, Order: "desc", ListOptions: Options}
 
-	repo, _, err := client.GitHubClient.Search.Repositories(ctx, github.Sort, opts)
+	repo, _, err := client.GitHubClient.Search.Repositories(ctx, github.Key, opts)
 	if err != nil {
 		c.WriteJSON(http.StatusRequestTimeout, con.H{"status": http.StatusRequestTimeout})
 		return
 	}
+
 	c.WriteJSON(http.StatusOK, con.H{"status": http.StatusOK, "search": opts, "a": repo})
 }
