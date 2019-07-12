@@ -9,15 +9,15 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// Client -
-type Client struct {
+// ListClient -
+type ListClient struct {
 	GitHubClient *gg.Client
 }
 
-// NewClient create GithubCliebt
-func NewClient(g *http.Client) *Client {
+// NewListClient create GithubCliebt
+func NewListClient(g *http.Client) *ListClient {
 	client := gg.NewClient(g)
-	return &Client{
+	return &ListClient{
 		GitHubClient: client,
 	}
 }
@@ -35,7 +35,7 @@ func List(w http.ResponseWriter, r *http.Request) {
 	)
 
 	tc := oauth2.NewClient(ctx, ts)
-	client := NewClient(tc)
+	client := NewListClient(tc)
 
 	opt := gg.RepositoryListOptions{
 		Visibility:  "all",
