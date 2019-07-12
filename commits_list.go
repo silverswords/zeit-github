@@ -15,8 +15,8 @@ type ComClient struct {
 	GitHubClient *gg.Client
 }
 
-// NewClient create GithubCliebt
-func NewClient(g *http.Client) *ConClient {
+// NewComClient create GithubCliebt
+func NewComClient(g *http.Client) *ConClient {
 	client := gg.NewClient(g)
 	return &ConClient{
 		GitHubClient: client,
@@ -53,7 +53,7 @@ func CommitsList(w http.ResponseWriter, r *http.Request) {
 	)
 
 	tc := oauth2.NewClient(ctx, ts)
-	client := NewListClient(tc)
+	client := NewComClient(tc)
 
 	commits, _, err := client.GitHubClient.Repositories.ListCommits(ctx, github.Owner, github.Repo, nil)
 	if err != nil {
