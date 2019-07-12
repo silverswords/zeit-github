@@ -7,30 +7,29 @@ import (
 	gg "github.com/google/go-github/github"
 	util "github.com/silverswords/clouds/pkgs/http"
 	con "github.com/silverswords/clouds/pkgs/http/context"
-	"golang.org/x/oauth2"
 )
 
-// ComClient -
-type ComClient struct {
+// GistClient -
+type GistClient struct {
 	GitHubClient *gg.Client
 }
 
-// NewComClient create GithubCliebt
-func NewComClient(g *http.Client) *ComClient {
+// NewGistClient create GithubCliebt
+func NewGistClient(g *http.Client) *GistClient {
 	client := gg.NewClient(g)
-	return &ComClient{
+	return &GistClient{
 		GitHubClient: client,
 	}
 }
 
-// CommitsList -
-func CommitsList(w http.ResponseWriter, r *http.Request) {
+// GistList -
+func GistList(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			Owner string
-			Repo  string `zeit:"required"`
+			User string `zeit:"required"`
 		}
 	)
+
 	c := con.NewContext(w, r)
 	err := c.ShouldBind(&github)
 	if err != nil {
@@ -44,22 +43,14 @@ func CommitsList(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	Token := c.Request.Header
-	s := Token["Authorization"][0]
-
+	client := NewGistClient(nil)
 	ctx := context.Background()
-	ts := oauth2.StaticTokenSource(
-		&oauth2.Token{AccessToken: s},
-	)
 
-	tc := oauth2.NewClient(ctx, ts)
-	client := NewComClient(tc)
-
-	commits, _, err := client.GitHubClient.Repositories.ListCommits(ctx, github.Owner, github.Repo, nil)
+	gist, _, err := client.GitHubClient.Gists.List(ctx, github.User, nil)
 	if err != nil {
 		c.WriteJSON(http.StatusRequestTimeout, con.H{"status": http.StatusRequestTimeout})
 		return
 	}
 
-	c.WriteJSON(http.StatusOK, con.H{"status": http.StatusOK, "Commits": commits})
+	c.WriteJSON(http.StatusOK, con.H{"status": http.StatusOK, "Gists": gist})
 }
