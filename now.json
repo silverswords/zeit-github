@@ -7,12 +7,13 @@
     ],
     "routes": [
         { "src": "/api/v1/github/user", "dest": "user.go" },
-        { "src": "/api/v1/github/user/gist", "dest": "gist_list.go" },
-        { "src": "/api/v1/github/repo/list", "dest": "list.go" },
-        { "src": "/api/v1/github/repo/content", "dest": "content_list.go" },
-        { "src": "/api/v1/github/repo/commits", "dest": "commits_list.go" },
-        { "src": "/api/v1/github/trend/repo", "dest": "repo_trend.go" },
-        { "src": "/api/v1/github/trend/developer", "dest": "developer_tend.go" }
+        { "src": "/api/v1/github/user/gist", "dest": "user_gist.go" },
+        { "src": "/api/v1/github/user/repo", "dest": "user_repo.go" },
+        { "src": "/api/v1/github/search/repo", "dest": "search_repo.go" },
+        { "src": "/api/v1/github/repo/content", "dest": "repo_content.go" },
+        { "src": "/api/v1/github/repo/commits", "dest": "repo_commits.go" },
+        { "src": "/api/v1/github/trend/repo", "dest": "trend_repo.go" },
+        { "src": "/api/v1/github/trend/developer", "dest": "trend_developer.go" }
       
     ]
 }
