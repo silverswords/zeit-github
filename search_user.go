@@ -9,24 +9,24 @@ import (
 	con "github.com/silverswords/clouds/pkgs/http/context"
 )
 
-// SearchRepoClient encapsulate github.Client
-type SearchRepoClient struct {
+// SearchUserClient encapsulate github.Client
+type SearchUserClient struct {
 	GitHubClient *gg.Client
 }
 
-// NewSearchRepoClient create SearchRepoClient
-func NewSearchRepoClient(g *http.Client) *SearchRepoClient {
+// NewSearchUserClient create GithubClient
+func NewSearchUserClient(g *http.Client) *SearchUserClient {
 	client := gg.NewClient(g)
-	return &SearchRepoClient{
+	return &SearchUserClient{
 		GitHubClient: client,
 	}
 }
 
-// SearchRepo searches repositories via various criteria.
-func SearchRepo(w http.ResponseWriter, r *http.Request) {
+// SearchUser searches users via various criteria.
+func SearchUser(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			Key  string `json:"key"  zeit:"required"`
+			Key  string `json:"key" zeit:"required"`
 			Sort string `json:"sort" zeit:"required"`
 		}
 	)
@@ -44,17 +44,17 @@ func SearchRepo(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	client := NewSearchRepoClient(nil)
+	client := NewSearchUserClient(nil)
 	ctx := context.Background()
 
 	Options := gg.ListOptions{Page: 1, PerPage: 10}
 	opts := &gg.SearchOptions{Sort: github.Sort, Order: "desc", ListOptions: Options}
 
-	repo, _, err := client.GitHubClient.Search.Repositories(ctx, github.Key, opts)
+	user, _, err := client.GitHubClient.Search.Users(ctx, github.Key, opts)
 	if err != nil {
 		c.WriteJSON(http.StatusRequestTimeout, con.H{"status": http.StatusRequestTimeout})
 		return
 	}
 
-	c.WriteJSON(http.StatusOK, con.H{"status": http.StatusOK, "repo": repo})
+	c.WriteJSON(http.StatusOK, con.H{"status": http.StatusOK, "user": user})
 }

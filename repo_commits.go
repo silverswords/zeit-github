@@ -10,20 +10,20 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// ComClient -
-type ComClient struct {
+// CommitClient encapsulate github.Client
+type CommitClient struct {
 	GitHubClient *gg.Client
 }
 
-// NewComClient create GithubCliebt
-func NewComClient(g *http.Client) *ComClient {
+// NewCommitClient create CommitClient
+func NewCommitClient(g *http.Client) *CommitClient {
 	client := gg.NewClient(g)
-	return &ComClient{
+	return &CommitClient{
 		GitHubClient: client,
 	}
 }
 
-// CommitsList -
+// CommitsList lists the commits of a repository
 func CommitsList(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
@@ -53,7 +53,7 @@ func CommitsList(w http.ResponseWriter, r *http.Request) {
 	)
 
 	tc := oauth2.NewClient(ctx, ts)
-	client := NewComClient(tc)
+	client := NewCommitClient(tc)
 
 	commits, _, err := client.GitHubClient.Repositories.ListCommits(ctx, github.Owner, github.Repo, nil)
 	if err != nil {

@@ -8,12 +8,12 @@ import (
 	con "github.com/silverswords/clouds/pkgs/http/context"
 )
 
-// RepoTrend -
+// RepoTrend return an array of trending repositories.
 func RepoTrend(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			Language  string `json:"language"  `
-			DataRange string `json:"daterange" `
+			Language  string `json:"language"`
+			DataRange string `json:"daterange"`
 		}
 	)
 

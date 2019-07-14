@@ -10,20 +10,22 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// ConClient -
-type ConClient struct {
+// ContentClient encapsulate github.Client
+type ContentClient struct {
 	GitHubClient *gg.Client
 }
 
-// NewConClient create GithubCliebt
-func NewConClient(g *http.Client) *ConClient {
+// NewContentClient create ContentClient
+func NewContentClient(g *http.Client) *ContentClient {
 	client := gg.NewClient(g)
-	return &ConClient{
+	return &ContentClient{
 		GitHubClient: client,
 	}
 }
 
-// ContentList -
+// ContentList return either the metadata and content of a single file
+// (when path references a file) or the metadata of all the files and/or
+// subdirectories of a directory (when path references a directory)
 func ContentList(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
@@ -54,7 +56,7 @@ func ContentList(w http.ResponseWriter, r *http.Request) {
 	)
 
 	tc := oauth2.NewClient(ctx, ts)
-	client := NewConClient(tc)
+	client := NewContentClient(tc)
 
 	_, contentList, _, err := client.GitHubClient.Repositories.GetContents(ctx, github.Owner, github.Repo, github.Path, nil)
 	if err != nil {

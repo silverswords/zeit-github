@@ -9,25 +9,24 @@ import (
 	con "github.com/silverswords/clouds/pkgs/http/context"
 )
 
-// SearchRepoClient encapsulate github.Client
-type SearchRepoClient struct {
+// FollowerClient encapsulate github.Client
+type FollowerClient struct {
 	GitHubClient *gg.Client
 }
 
-// NewSearchRepoClient create SearchRepoClient
-func NewSearchRepoClient(g *http.Client) *SearchRepoClient {
+// NewFollowerClient create FollowerClient
+func NewFollowerClient(g *http.Client) *FollowerClient {
 	client := gg.NewClient(g)
-	return &SearchRepoClient{
+	return &FollowerClient{
 		GitHubClient: client,
 	}
 }
 
-// SearchRepo searches repositories via various criteria.
-func SearchRepo(w http.ResponseWriter, r *http.Request) {
+// Follower lists the followers for a user.
+func Follower(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			Key  string `json:"key"  zeit:"required"`
-			Sort string `json:"sort" zeit:"required"`
+			User string `json:"user" zeit:"required"`
 		}
 	)
 
@@ -44,17 +43,14 @@ func SearchRepo(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	client := NewSearchRepoClient(nil)
+	client := NewFollowerClient(nil)
 	ctx := context.Background()
 
-	Options := gg.ListOptions{Page: 1, PerPage: 10}
-	opts := &gg.SearchOptions{Sort: github.Sort, Order: "desc", ListOptions: Options}
-
-	repo, _, err := client.GitHubClient.Search.Repositories(ctx, github.Key, opts)
+	followers, _, err := client.GitHubClient.Users.ListFollowers(ctx, github.User, nil)
 	if err != nil {
 		c.WriteJSON(http.StatusRequestTimeout, con.H{"status": http.StatusRequestTimeout})
 		return
 	}
 
-	c.WriteJSON(http.StatusOK, con.H{"status": http.StatusOK, "repo": repo})
+	c.WriteJSON(http.StatusOK, con.H{"status": http.StatusOK, "followers": followers})
 }

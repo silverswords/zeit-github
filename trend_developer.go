@@ -8,8 +8,8 @@ import (
 	con "github.com/silverswords/clouds/pkgs/http/context"
 )
 
-// DevelTrend -
-func DevelTrend(w http.ResponseWriter, r *http.Request) {
+// DeveloperTrend return an array of trending developers.
+func DeveloperTrend(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
 			Language  string `json:"language" `
@@ -30,7 +30,7 @@ func DevelTrend(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	trend, err := service.DevelTrending(github.Language, github.DataRange)
+	trend, err := service.DeveloperTrending(github.Language, github.DataRange)
 	if err != nil {
 		c.WriteJSON(http.StatusRequestTimeout, con.H{"status": http.StatusRequestTimeout})
 		return

@@ -9,12 +9,12 @@ import (
 	con "github.com/silverswords/clouds/pkgs/http/context"
 )
 
-// UserClient -
+// UserClient encapsulate github.Client
 type UserClient struct {
 	GitHubClient *gg.Client
 }
 
-// NewUserClient create GithubCliebt
+// NewUserClient create GithubClient
 func NewUserClient(g *http.Client) *UserClient {
 	client := gg.NewClient(g)
 	return &UserClient{
@@ -22,11 +22,11 @@ func NewUserClient(g *http.Client) *UserClient {
 	}
 }
 
-// User -
+// User Get fetches a user.
 func User(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			UserName string `json:"username" zeit:"required"`
+			User string `json:"user" zeit:"required"`
 		}
 	)
 
@@ -46,7 +46,7 @@ func User(w http.ResponseWriter, r *http.Request) {
 	client := NewUserClient(nil)
 	ctx := context.Background()
 
-	user, _, err := client.GitHubClient.Users.Get(ctx, github.UserName)
+	user, _, err := client.GitHubClient.Users.Get(ctx, github.User)
 	if err != nil {
 		c.WriteJSON(http.StatusRequestTimeout, con.H{"status": http.StatusRequestTimeout})
 		return

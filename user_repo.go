@@ -9,20 +9,20 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// ListClient -
-type ListClient struct {
+// RepoClient encapsulate github.Client
+type RepoClient struct {
 	GitHubClient *gg.Client
 }
 
-// NewListClient create GithubCliebt
-func NewListClient(g *http.Client) *ListClient {
+// NewRepoClient create RepoClient
+func NewRepoClient(g *http.Client) *RepoClient {
 	client := gg.NewClient(g)
-	return &ListClient{
+	return &RepoClient{
 		GitHubClient: client,
 	}
 }
 
-// List -
+// List list the repositories for a user.
 func List(w http.ResponseWriter, r *http.Request) {
 	c := con.NewContext(w, r)
 
@@ -35,7 +35,7 @@ func List(w http.ResponseWriter, r *http.Request) {
 	)
 
 	tc := oauth2.NewClient(ctx, ts)
-	client := NewListClient(tc)
+	client := NewRepoClient(tc)
 
 	opt := gg.RepositoryListOptions{
 		Visibility:  "all",
@@ -44,11 +44,11 @@ func List(w http.ResponseWriter, r *http.Request) {
 		Direction:   "asc",
 	}
 
-	list, _, err := client.GitHubClient.Repositories.List(ctx, "", &opt)
+	repolist, _, err := client.GitHubClient.Repositories.List(ctx, "", &opt)
 	if err != nil {
 		c.WriteJSON(http.StatusRequestTimeout, con.H{"status": http.StatusRequestTimeout})
 		return
 	}
 
-	c.WriteJSON(http.StatusOK, con.H{"status": http.StatusOK, "list": list})
+	c.WriteJSON(http.StatusOK, con.H{"status": http.StatusOK, "repolist": repolist})
 }

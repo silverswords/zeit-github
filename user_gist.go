@@ -9,12 +9,12 @@ import (
 	con "github.com/silverswords/clouds/pkgs/http/context"
 )
 
-// GistClient -
+// GistClient encapsulate github.Client
 type GistClient struct {
 	GitHubClient *gg.Client
 }
 
-// NewGistClient create GithubCliebt
+// NewGistClient create GistClient
 func NewGistClient(g *http.Client) *GistClient {
 	client := gg.NewClient(g)
 	return &GistClient{
@@ -22,7 +22,7 @@ func NewGistClient(g *http.Client) *GistClient {
 	}
 }
 
-// GistList -
+// GistList  list gists for a user.
 func GistList(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
@@ -52,5 +52,5 @@ func GistList(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	c.WriteJSON(http.StatusOK, con.H{"status": http.StatusOK, "Gists": gist})
+	c.WriteJSON(http.StatusOK, con.H{"status": http.StatusOK, "gists": gist})
 }
