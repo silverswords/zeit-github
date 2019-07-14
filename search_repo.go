@@ -47,7 +47,7 @@ func SearchRepo(w http.ResponseWriter, r *http.Request) {
 	client := NewSearchRepoClient(nil)
 	ctx := context.Background()
 
-	Options := gg.ListOptions{Page: 1, PerPage: 10}
+	Options := gg.ListOptions{Page: 1, PerPage: 20}
 	opts := &gg.SearchOptions{Sort: github.Sort, Order: "desc", ListOptions: Options}
 
 	repo, _, err := client.GitHubClient.Search.Repositories(ctx, github.Key, opts)

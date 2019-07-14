@@ -47,7 +47,7 @@ func SearchUser(w http.ResponseWriter, r *http.Request) {
 	client := NewSearchUserClient(nil)
 	ctx := context.Background()
 
-	Options := gg.ListOptions{Page: 1, PerPage: 10}
+	Options := gg.ListOptions{Page: 1, PerPage: 20}
 	opts := &gg.SearchOptions{Sort: github.Sort, Order: "desc", ListOptions: Options}
 
 	user, _, err := client.GitHubClient.Search.Users(ctx, github.Key, opts)
