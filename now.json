@@ -3,7 +3,6 @@
     "name": "GitHub",
     "builds": [
         { "src": "/*.go", "use": "@now/go" }
-        
     ],
     "routes": [
         { "src": "/api/v1/github/user", "dest": "user.go" },
@@ -11,7 +10,6 @@
         { "src": "/api/v1/github/user/gist", "dest": "user_gist.go" },
         { "src": "/api/v1/github/user/follower", "dest": "user_follower.go" },
         { "src": "/api/v1/github/user/following", "dest": "user_following.go" },
-
        
         { "src": "/api/v1/github/repo/commit", "dest": "repo_commits.go" },
         { "src": "/api/v1/github/repo/content", "dest": "repo_content.go" },
