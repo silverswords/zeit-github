@@ -26,7 +26,7 @@ func NewUserClient(g *http.Client) *UserClient {
 func User(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			UserName string `zeit:"required"`
+			UserName string `json:"username" zeit:"required"`
 		}
 	)
 

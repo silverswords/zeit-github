@@ -27,8 +27,8 @@ func NewComClient(g *http.Client) *ComClient {
 func CommitsList(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			Owner string
-			Repo  string `zeit:"required"`
+			Owner string `json:"owner"`
+			Repo  string `json:"repo" zeit:"required"`
 		}
 	)
 	c := con.NewContext(w, r)

@@ -10,7 +10,9 @@
         { "src": "/api/v1/github/user/gist", "dest": "gist_list.go" },
         { "src": "/api/v1/github/repo/list", "dest": "list.go" },
         { "src": "/api/v1/github/repo/content", "dest": "content_list.go" },
-        { "src": "/api/v1/github/repo/commits", "dest": "commits_list.go" }
+        { "src": "/api/v1/github/repo/commits", "dest": "commits_list.go" },
+        { "src": "/api/v1/github/trend/repo", "dest": "repo_trend.go" },
+        { "src": "/api/v1/github/trend/developer", "dest": "developer_tend.go" }
       
     ]
 }

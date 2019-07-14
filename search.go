@@ -26,8 +26,8 @@ func NewSeaClient(g *http.Client) *SeaClient {
 func Search(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			Key  string `zeit:"required"`
-			Sort string `zeit:"required"`
+			Key  string `json:"key" zeit:"required"`
+			Sort string `json:"sort" zeit:"required"`
 		}
 	)
 
@@ -56,5 +56,5 @@ func Search(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	c.WriteJSON(http.StatusOK, con.H{"status": http.StatusOK, "search": opts, "a": repo})
+	c.WriteJSON(http.StatusOK, con.H{"status": http.StatusOK, "a": repo})
 }

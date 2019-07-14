@@ -27,9 +27,9 @@ func NewConClient(g *http.Client) *ConClient {
 func ContentList(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			Owner string
-			Repo  string `zeit:"required"`
-			Path  string
+			Owner string `json:"owner"`
+			Repo  string `json:"repo" zeit:"required"`
+			Path  string `json:"path"`
 		}
 	)
 	c := con.NewContext(w, r)

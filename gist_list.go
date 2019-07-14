@@ -26,7 +26,7 @@ func NewGistClient(g *http.Client) *GistClient {
 func GistList(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			User string `zeit:"required"`
+			User string `json:"user" zeit:"required"`
 		}
 	)
 

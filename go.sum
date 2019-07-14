@@ -2,8 +2,8 @@ github.com/google/go-github v17.0.0+incompatible h1:N0LgJ1j65A7kfXrZnUDaYCs/Sf4r
 github.com/google/go-github v17.0.0+incompatible/go.mod h1:zLgOLi98H3fifZn+44m+umXrS52loVEgC2AApnigrVQ=
 github.com/google/go-querystring v1.0.0 h1:Xkwi/a1rcvNg1PPYe5vI8GbeBY/jrVuDX5ASuANWTrk=
 github.com/google/go-querystring v1.0.0/go.mod h1:odCYkC5MyYFN7vkCjXpyrEuKhc/BUO6wN/zVPAxq5ck=
-github.com/silverswords/clouds v0.0.0-20190622084222-484fafe4adb3 h1:mfs4T80wu+uIV+7g7bWLlSXp83VRvWGIVObjef7Trq4=
-github.com/silverswords/clouds v0.0.0-20190622084222-484fafe4adb3/go.mod h1:hU6wzt+Zvj6qOXy4DCYUdg39/7vAOf163uLlXinmA90=
+github.com/silverswords/clouds v0.0.0-20190714023708-929029f63231 h1:fnXihmed6dY4L3leyo2jcQvPMOksl8fbNBLrglzL0ZQ=
+github.com/silverswords/clouds v0.0.0-20190714023708-929029f63231/go.mod h1:hU6wzt+Zvj6qOXy4DCYUdg39/7vAOf163uLlXinmA90=
 gopkg.in/go-playground/assert.v1 v1.2.1 h1:xoYuJVE7KT85PYWrN730RguIQO0ePzVRfFMXadIrXTM=
 gopkg.in/go-playground/assert.v1 v1.2.1/go.mod h1:9RXL0bg/zibRAgZUYszZSwO/z8Y/a8bDuhia5mkpMnE=
 gopkg.in/go-playground/validator.v8 v8.18.2 h1:lFB4DoMU6B626w8ny76MV7VX6W2VHct2GVOI3xgiMrQ=
