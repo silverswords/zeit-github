@@ -30,8 +30,9 @@ func Contributor(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	Token := c.Request.Header
-	s := cloudapi.NewService("token " + Token["Authorization"][0])
+	token := c.Request.Header
+	t := token.Get("Authorization")
+	s := cloudapi.NewService(t)
 
 	contributor, err := s.Contributor(github.Owner, github.Repo)
 	if err != nil {

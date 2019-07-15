@@ -34,12 +34,12 @@ func ContentList(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	Token := c.Request.Header
-	s := Token["Authorization"][0]
+	token := c.Request.Header
+	t := token.Get("Authorization")
 
 	ctx := context.Background()
 	ts := oauth2.StaticTokenSource(
-		&oauth2.Token{AccessToken: s},
+		&oauth2.Token{AccessToken: t},
 	)
 
 	tc := oauth2.NewClient(ctx, ts)
