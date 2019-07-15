@@ -6,7 +6,7 @@ import (
 
 	cloudapi "github.com/silverswords/clouds/openapi/github"
 	util "github.com/silverswords/clouds/pkgs/http"
-	cloudpkg "github.com/silverswords/clouds/pkgs/http/context"
+	cloudpkgs "github.com/silverswords/clouds/pkgs/http/context"
 )
 
 // GistList  list gists for a user.
@@ -17,16 +17,16 @@ func GistList(w http.ResponseWriter, r *http.Request) {
 		}
 	)
 
-	c := cloudpkg.NewContext(w, r)
+	c := cloudpkgs.NewContext(w, r)
 	err := c.ShouldBind(&github)
 	if err != nil {
-		c.WriteJSON(http.StatusNotAcceptable, cloudpkg.H{"status": http.StatusNotAcceptable})
+		c.WriteJSON(http.StatusBadRequest, cloudpkgs.H{"status": http.StatusBadRequest})
 		return
 	}
 
 	err = util.Validate(&github)
 	if err != nil {
-		c.WriteJSON(http.StatusConflict, cloudpkg.H{"status": http.StatusConflict})
+		c.WriteJSON(http.StatusPreconditionRequired, cloudpkgs.H{"status": http.StatusPreconditionRequired})
 		return
 	}
 
@@ -35,9 +35,9 @@ func GistList(w http.ResponseWriter, r *http.Request) {
 
 	gist, _, err := client.Client.Gists.List(ctx, github.User, nil)
 	if err != nil {
-		c.WriteJSON(http.StatusRequestTimeout, cloudpkg.H{"status": http.StatusRequestTimeout})
+		c.WriteJSON(http.StatusRequestTimeout, cloudpkgs.H{"status": http.StatusRequestTimeout})
 		return
 	}
 
-	c.WriteJSON(http.StatusOK, cloudpkg.H{"status": http.StatusOK, "gists": gist})
+	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK, "gists": gist})
 }

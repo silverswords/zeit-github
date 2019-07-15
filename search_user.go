@@ -24,13 +24,13 @@ func SearchUser(w http.ResponseWriter, r *http.Request) {
 	c := cloudpkgs.NewContext(w, r)
 	err := c.ShouldBind(&github)
 	if err != nil {
-		c.WriteJSON(http.StatusNotAcceptable, cloudpkgs.H{"status": http.StatusNotAcceptable})
+		c.WriteJSON(http.StatusBadRequest, cloudpkgs.H{"status": http.StatusBadRequest})
 		return
 	}
 
 	err = util.Validate(&github)
 	if err != nil {
-		c.WriteJSON(http.StatusConflict, cloudpkgs.H{"status": http.StatusConflict})
+		c.WriteJSON(http.StatusPreconditionRequired, cloudpkgs.H{"status": http.StatusPreconditionRequired})
 		return
 	}
 

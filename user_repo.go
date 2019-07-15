@@ -6,13 +6,13 @@ import (
 
 	gogithub "github.com/google/go-github/github"
 	cloudapi "github.com/silverswords/clouds/openapi/github"
-	cloudpkg "github.com/silverswords/clouds/pkgs/http/context"
+	cloudpkgs "github.com/silverswords/clouds/pkgs/http/context"
 	"golang.org/x/oauth2"
 )
 
 // List list the repositories for a user.
 func List(w http.ResponseWriter, r *http.Request) {
-	c := cloudpkg.NewContext(w, r)
+	c := cloudpkgs.NewContext(w, r)
 
 	Token := c.Request.Header
 	s := Token["Authorization"][0]
@@ -34,9 +34,9 @@ func List(w http.ResponseWriter, r *http.Request) {
 
 	repolist, _, err := client.Client.Repositories.List(ctx, "", &opt)
 	if err != nil {
-		c.WriteJSON(http.StatusRequestTimeout, cloudpkg.H{"status": http.StatusRequestTimeout})
+		c.WriteJSON(http.StatusRequestTimeout, cloudpkgs.H{"status": http.StatusRequestTimeout})
 		return
 	}
 
-	c.WriteJSON(http.StatusOK, cloudpkg.H{"status": http.StatusOK, "repolist": repolist})
+	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK, "repolist": repolist})
 }
