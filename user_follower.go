@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/http"
 
+	gogithub "github.com/google/go-github/github"
 	cloudapi "github.com/silverswords/clouds/openapi/github"
 	util "github.com/silverswords/clouds/pkgs/http"
 	cloudpkgs "github.com/silverswords/clouds/pkgs/http/context"
@@ -13,7 +14,9 @@ import (
 func Follower(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			User string `json:"user" zeit:"required"`
+			User    string `json:"user"      zeit:"required"`
+			Page    int    `json:"page"`
+			PerPage int    `json:"per_page"`
 		}
 	)
 
@@ -33,7 +36,9 @@ func Follower(w http.ResponseWriter, r *http.Request) {
 	client := cloudapi.NewAPIClient(nil)
 	ctx := context.Background()
 
-	followers, _, err := client.Client.Users.ListFollowers(ctx, github.User, nil)
+	options := &gogithub.ListOptions{Page: github.Page, PerPage: github.PerPage}
+
+	followers, _, err := client.Client.Users.ListFollowers(ctx, github.User, options)
 	if err != nil {
 		c.WriteJSON(http.StatusRequestTimeout, cloudpkgs.H{"status": http.StatusRequestTimeout})
 		return

@@ -11,18 +11,17 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// GetContents return either the metadata and content of a single file
-// (when path references a file) or the metadata of all the files and/or
-// subdirectories of a directory (when path references a directory)
-func GetContents(w http.ResponseWriter, r *http.Request) {
+// GistEdit  delete gists for a user.
+func GistEdit(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			Owner string `json:"owner"`
-			Repo  string `json:"repo" zeit:"required"`
-			Path  string `json:"path"`
-			Ref   string `json:"ref"`
+			ID          string                `json:"id"          zeit:"required"`
+			Description string                `json:"description" zeit:"required"`
+			FileName    gogithub.GistFilename `json:"filename"    zeit:"required"`
+			Content     string                `json:"cotent"      zeit:"required"`
 		}
 	)
+
 	c := cloudpkgs.NewContext(w, r)
 	err := c.ShouldBind(&github)
 	if err != nil {
@@ -47,13 +46,22 @@ func GetContents(w http.ResponseWriter, r *http.Request) {
 	tc := oauth2.NewClient(ctx, ts)
 	client := cloudapi.NewAPIClient(tc)
 
-	opt := &gogithub.RepositoryContentGetOptions{Ref: github.Ref}
+	file := map[gogithub.GistFilename]gogithub.GistFile{
+		github.FileName: gogithub.GistFile{
+			Content: &github.Content,
+		},
+	}
 
-	_, contentList, _, err := client.Client.Repositories.GetContents(ctx, github.Owner, github.Repo, github.Path, opt)
+	input := &gogithub.Gist{
+		Description: &github.Description,
+		Files:       file,
+	}
+
+	gist, _, err := client.Client.Gists.Edit(ctx, github.ID, input)
 	if err != nil {
 		c.WriteJSON(http.StatusRequestTimeout, cloudpkgs.H{"status": http.StatusRequestTimeout})
 		return
 	}
 
-	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK, "Contents": contentList})
+	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK, "gist": gist})
 }

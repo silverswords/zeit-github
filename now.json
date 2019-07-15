@@ -7,9 +7,14 @@
     "routes": [
         { "src": "/api/v1/github/user",             "dest": "user.go" },
         { "src": "/api/v1/github/user/repo",        "dest": "user_repo.go" },
-        { "src": "/api/v1/github/user/gist",        "dest": "user_gist.go" },
         { "src": "/api/v1/github/user/follower",    "dest": "user_follower.go" },
         { "src": "/api/v1/github/user/following",   "dest": "user_following.go" },
+
+        { "src": "/api/v1/github/gist/add",         "dest": "gist_add.go" },
+        { "src": "/api/v1/github/gist/get",         "dest": "gist_get.go" },
+        { "src": "/api/v1/github/gist/edit",        "dest": "gist_edit.go" },
+        { "src": "/api/v1/github/gist/list",        "dest": "gist_list.go" },
+        { "src": "/api/v1/github/gist/delete",      "dest": "gist_delete.go" },
        
         { "src": "/api/v1/github/repo/commit",      "dest": "repo_commits.go" },
         { "src": "/api/v1/github/repo/content",     "dest": "repo_content.go" },

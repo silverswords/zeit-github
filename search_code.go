@@ -37,8 +37,8 @@ func SearchCode(w http.ResponseWriter, r *http.Request) {
 	client := cloudapi.NewAPIClient(nil)
 	ctx := context.Background()
 
-	Options := gogithub.ListOptions{Page: github.Page, PerPage: github.PerPage}
-	opts := &gogithub.SearchOptions{Sort: github.Sort, Order: "desc", ListOptions: Options}
+	options := gogithub.ListOptions{Page: github.Page, PerPage: github.PerPage}
+	opts := &gogithub.SearchOptions{Sort: github.Sort, Order: "desc", ListOptions: options}
 
 	code, _, err := client.Client.Search.Code(ctx, github.Key, opts)
 	if err != nil {

@@ -37,8 +37,8 @@ func SearchRepo(w http.ResponseWriter, r *http.Request) {
 	client := cloudapi.NewAPIClient(nil)
 	ctx := context.Background()
 
-	Options := gogithub.ListOptions{Page: github.Page, PerPage: github.PerPage}
-	opts := &gogithub.SearchOptions{Sort: github.Sort, Order: "desc", ListOptions: Options}
+	options := gogithub.ListOptions{Page: github.Page, PerPage: github.PerPage}
+	opts := &gogithub.SearchOptions{Sort: github.Sort, Order: "desc", ListOptions: options}
 
 	repo, _, err := client.Client.Search.Repositories(ctx, github.Key, opts)
 	if err != nil {

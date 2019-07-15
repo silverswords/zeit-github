@@ -4,20 +4,17 @@ import (
 	"context"
 	"net/http"
 
-	gogithub "github.com/google/go-github/github"
 	cloudapi "github.com/silverswords/clouds/openapi/github"
 	util "github.com/silverswords/clouds/pkgs/http"
 	cloudpkgs "github.com/silverswords/clouds/pkgs/http/context"
+	"golang.org/x/oauth2"
 )
 
-// SearchUser searches users via various criteria.
-func SearchUser(w http.ResponseWriter, r *http.Request) {
+// GistGet  list gists for a user.
+func GistGet(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			Key     string `json:"key"      zeit:"required"`
-			Sort    string `json:"sort"     zeit:"required"`
-			Page    int    `json:"page"     zeit:"required"`
-			PerPage int    `json:"per_page" zeit:"required"`
+			ID string `json:"id" zeit:"required"`
 		}
 	)
 
@@ -34,17 +31,22 @@ func SearchUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	client := cloudapi.NewAPIClient(nil)
+	token := c.Request.Header
+	t := token.Get("Authorization")
+
 	ctx := context.Background()
+	ts := oauth2.StaticTokenSource(
+		&oauth2.Token{AccessToken: t},
+	)
 
-	options := gogithub.ListOptions{Page: github.Page, PerPage: github.PerPage}
-	opts := &gogithub.SearchOptions{Sort: github.Sort, Order: "desc", ListOptions: options}
+	tc := oauth2.NewClient(ctx, ts)
+	client := cloudapi.NewAPIClient(tc)
 
-	user, _, err := client.Client.Search.Users(ctx, github.Key, opts)
+	gist, _, err := client.Client.Gists.Get(ctx, github.ID)
 	if err != nil {
 		c.WriteJSON(http.StatusRequestTimeout, cloudpkgs.H{"status": http.StatusRequestTimeout})
 		return
 	}
 
-	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK, "user": user})
+	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK, "gists": gist})
 }
