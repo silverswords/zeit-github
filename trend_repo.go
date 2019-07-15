@@ -3,9 +3,9 @@ package github
 import (
 	"net/http"
 
-	service "github.com/silverswords/clouds/openapi/github"
+	cloudapi "github.com/silverswords/clouds/openapi/github"
 	util "github.com/silverswords/clouds/pkgs/http"
-	con "github.com/silverswords/clouds/pkgs/http/context"
+	cloudpkgs "github.com/silverswords/clouds/pkgs/http/context"
 )
 
 // RepoTrend return an array of trending repositories.
@@ -17,25 +17,25 @@ func RepoTrend(w http.ResponseWriter, r *http.Request) {
 		}
 	)
 
-	c := con.NewContext(w, r)
+	c := cloudpkgs.NewContext(w, r)
 	err := c.ShouldBind(&github)
 	if err != nil {
-		c.WriteJSON(http.StatusNotAcceptable, con.H{"status": http.StatusNotAcceptable})
+		c.WriteJSON(http.StatusNotAcceptable, cloudpkgs.H{"status": http.StatusNotAcceptable})
 		return
 	}
 
 	err = util.Validate(&github)
 	if err != nil {
-		c.WriteJSON(http.StatusConflict, con.H{"status": http.StatusConflict})
+		c.WriteJSON(http.StatusConflict, cloudpkgs.H{"status": http.StatusConflict})
 		return
 	}
 
-	trend, err := service.RepoTrending(github.Language, github.DataRange)
+	trend, err := cloudapi.RepoTrending(github.Language, github.DataRange)
 	if err != nil {
-		c.WriteJSON(http.StatusRequestTimeout, con.H{"status": http.StatusRequestTimeout})
+		c.WriteJSON(http.StatusRequestTimeout, cloudpkgs.H{"status": http.StatusRequestTimeout})
 		return
 	}
 
-	c.WriteJSON(http.StatusOK, con.H{"status": http.StatusOK, "trend": trend})
+	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK, "trend": trend})
 
 }

@@ -4,23 +4,10 @@ import (
 	"context"
 	"net/http"
 
-	gg "github.com/google/go-github/github"
+	cloudapi "github.com/silverswords/clouds/openapi/github"
 	util "github.com/silverswords/clouds/pkgs/http"
-	con "github.com/silverswords/clouds/pkgs/http/context"
+	cloudpkg "github.com/silverswords/clouds/pkgs/http/context"
 )
-
-// GistClient encapsulate github.Client
-type GistClient struct {
-	GitHubClient *gg.Client
-}
-
-// NewGistClient create GistClient
-func NewGistClient(g *http.Client) *GistClient {
-	client := gg.NewClient(g)
-	return &GistClient{
-		GitHubClient: client,
-	}
-}
 
 // GistList  list gists for a user.
 func GistList(w http.ResponseWriter, r *http.Request) {
@@ -30,27 +17,27 @@ func GistList(w http.ResponseWriter, r *http.Request) {
 		}
 	)
 
-	c := con.NewContext(w, r)
+	c := cloudpkg.NewContext(w, r)
 	err := c.ShouldBind(&github)
 	if err != nil {
-		c.WriteJSON(http.StatusNotAcceptable, con.H{"status": http.StatusNotAcceptable})
+		c.WriteJSON(http.StatusNotAcceptable, cloudpkg.H{"status": http.StatusNotAcceptable})
 		return
 	}
 
 	err = util.Validate(&github)
 	if err != nil {
-		c.WriteJSON(http.StatusConflict, con.H{"status": http.StatusConflict})
+		c.WriteJSON(http.StatusConflict, cloudpkg.H{"status": http.StatusConflict})
 		return
 	}
 
-	client := NewGistClient(nil)
+	client := cloudapi.NewAPIClient(nil)
 	ctx := context.Background()
 
-	gist, _, err := client.GitHubClient.Gists.List(ctx, github.User, nil)
+	gist, _, err := client.Client.Gists.List(ctx, github.User, nil)
 	if err != nil {
-		c.WriteJSON(http.StatusRequestTimeout, con.H{"status": http.StatusRequestTimeout})
+		c.WriteJSON(http.StatusRequestTimeout, cloudpkg.H{"status": http.StatusRequestTimeout})
 		return
 	}
 
-	c.WriteJSON(http.StatusOK, con.H{"status": http.StatusOK, "gists": gist})
+	c.WriteJSON(http.StatusOK, cloudpkg.H{"status": http.StatusOK, "gists": gist})
 }

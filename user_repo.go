@@ -4,27 +4,15 @@ import (
 	"context"
 	"net/http"
 
-	gg "github.com/google/go-github/github"
-	con "github.com/silverswords/clouds/pkgs/http/context"
+	gogithub "github.com/google/go-github/github"
+	cloudapi "github.com/silverswords/clouds/openapi/github"
+	cloudpkg "github.com/silverswords/clouds/pkgs/http/context"
 	"golang.org/x/oauth2"
 )
 
-// RepoClient encapsulate github.Client
-type RepoClient struct {
-	GitHubClient *gg.Client
-}
-
-// NewRepoClient create RepoClient
-func NewRepoClient(g *http.Client) *RepoClient {
-	client := gg.NewClient(g)
-	return &RepoClient{
-		GitHubClient: client,
-	}
-}
-
 // List list the repositories for a user.
 func List(w http.ResponseWriter, r *http.Request) {
-	c := con.NewContext(w, r)
+	c := cloudpkg.NewContext(w, r)
 
 	Token := c.Request.Header
 	s := Token["Authorization"][0]
@@ -35,20 +23,20 @@ func List(w http.ResponseWriter, r *http.Request) {
 	)
 
 	tc := oauth2.NewClient(ctx, ts)
-	client := NewRepoClient(tc)
+	client := cloudapi.NewAPIClient(tc)
 
-	opt := gg.RepositoryListOptions{
+	opt := gogithub.RepositoryListOptions{
 		Visibility:  "all",
 		Affiliation: "owner,collaborator",
 		Sort:        "created",
 		Direction:   "asc",
 	}
 
-	repolist, _, err := client.GitHubClient.Repositories.List(ctx, "", &opt)
+	repolist, _, err := client.Client.Repositories.List(ctx, "", &opt)
 	if err != nil {
-		c.WriteJSON(http.StatusRequestTimeout, con.H{"status": http.StatusRequestTimeout})
+		c.WriteJSON(http.StatusRequestTimeout, cloudpkg.H{"status": http.StatusRequestTimeout})
 		return
 	}
 
-	c.WriteJSON(http.StatusOK, con.H{"status": http.StatusOK, "repolist": repolist})
+	c.WriteJSON(http.StatusOK, cloudpkg.H{"status": http.StatusOK, "repolist": repolist})
 }

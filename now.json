@@ -1,25 +1,25 @@
 {
     "version": 2,
-    "name": "GitHub",
+    "name": "github",
     "builds": [
         { "src": "/*.go", "use": "@now/go" }
     ],
     "routes": [
-        { "src": "/api/v1/github/user", "dest": "user.go" },
-        { "src": "/api/v1/github/user/repo", "dest": "user_repo.go" },
-        { "src": "/api/v1/github/user/gist", "dest": "user_gist.go" },
-        { "src": "/api/v1/github/user/follower", "dest": "user_follower.go" },
-        { "src": "/api/v1/github/user/following", "dest": "user_following.go" },
+        { "src": "/api/v1/github/user",             "dest": "user.go" },
+        { "src": "/api/v1/github/user/repo",        "dest": "user_repo.go" },
+        { "src": "/api/v1/github/user/gist",        "dest": "user_gist.go" },
+        { "src": "/api/v1/github/user/follower",    "dest": "user_follower.go" },
+        { "src": "/api/v1/github/user/following",   "dest": "user_following.go" },
        
-        { "src": "/api/v1/github/repo/commit", "dest": "repo_commits.go" },
-        { "src": "/api/v1/github/repo/content", "dest": "repo_content.go" },
-        { "src": "/api/v1/github/repo/contributor", "dest": "repo_contributor.go" },
+        { "src": "/api/v1/github/repo/commit",      "dest": "repo_commits.go" },
+        { "src": "/api/v1/github/repo/content",     "dest": "repo_content.go" },
+        { "src": "/api/v1/github/repo/contributor", "dest": "repo_contributors.go" },
 
-        { "src": "/api/v1/github/search/repo", "dest": "search_repo.go" },
-        { "src": "/api/v1/github/search/user", "dest": "search_user.go" },
-        { "src": "/api/v1/github/search/code", "dest": "search_code.go" },
+        { "src": "/api/v1/github/search/repo",      "dest": "search_repo.go" },
+        { "src": "/api/v1/github/search/user",      "dest": "search_user.go" },
+        { "src": "/api/v1/github/search/code",      "dest": "search_code.go" },
        
-        { "src": "/api/v1/github/trend/repo", "dest": "trend_repo.go" },
-        { "src": "/api/v1/github/trend/developer", "dest": "trend_developer.go" }
+        { "src": "/api/v1/github/trend/repo",       "dest": "trend_repo.go" },
+        { "src": "/api/v1/github/trend/developer",  "dest": "trend_developer.go" }
     ]
 }
