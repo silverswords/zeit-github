@@ -15,7 +15,7 @@ func CommitsList(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
 			Owner string `json:"owner"`
-			Repo  string `json:"repo" zeit:"required"`
+			Repo  string `json:"repo"  zeit:"required"`
 		}
 	)
 	c := cloudpkgs.NewContext(w, r)

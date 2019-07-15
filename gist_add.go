@@ -11,7 +11,7 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// GistAdd delete gists for a user.
+// GistAdd creates a gist for a user.
 func GistAdd(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {

@@ -10,14 +10,15 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// GistDelete  delete gist for a user.
-func GistDelete(w http.ResponseWriter, r *http.Request) {
+// IssueGet Get a single issue.
+func IssueGet(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			ID string `json:"id" zeit:"required"`
+			Owner  string `json:"owner"`
+			Repo   string `json:"repo"`
+			Number int    `json:"number"`
 		}
 	)
-
 	c := cloudpkgs.NewContext(w, r)
 	err := c.ShouldBind(&github)
 	if err != nil {
@@ -42,11 +43,11 @@ func GistDelete(w http.ResponseWriter, r *http.Request) {
 	tc := oauth2.NewClient(ctx, ts)
 	client := cloudapi.NewAPIClient(tc)
 
-	_, err = client.Client.Gists.Delete(ctx, github.ID)
+	issue, _, err := client.Client.Issues.Get(ctx, github.Owner, github.Repo, github.Number)
 	if err != nil {
 		c.WriteJSON(http.StatusRequestTimeout, cloudpkgs.H{"status": http.StatusRequestTimeout})
 		return
 	}
 
-	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK})
+	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK, "issue": issue})
 }

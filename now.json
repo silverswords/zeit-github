@@ -15,6 +15,9 @@
         { "src": "/api/v1/github/gist/edit",        "dest": "gist_edit.go" },
         { "src": "/api/v1/github/gist/list",        "dest": "gist_list.go" },
         { "src": "/api/v1/github/gist/delete",      "dest": "gist_delete.go" },
+
+        { "src": "/api/v1/github/issue/get",         "dest": "issue_get.go" },
+        { "src": "/api/v1/github/issue/list",        "dest": "issue_list.go" },
        
         { "src": "/api/v1/github/repo/commit",      "dest": "repo_commits.go" },
         { "src": "/api/v1/github/repo/content",     "dest": "repo_content.go" },

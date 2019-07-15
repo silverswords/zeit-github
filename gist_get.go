@@ -10,7 +10,7 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// GistGet  list gists for a user.
+// GistGet  list a gist for a user.
 func GistGet(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
