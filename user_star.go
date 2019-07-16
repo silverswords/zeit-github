@@ -11,18 +11,17 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// GetContents return either the metadata and content of a single file
-// (when path references a file) or the metadata of all the files and/or
-// subdirectories of a directory (when path references a directory)
-func GetContents(w http.ResponseWriter, r *http.Request) {
+// ListStarred lists all the repos starred by a user. Passing the empty string
+// will list the starred repositories for the authenticated user.
+func ListStarred(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			Owner string `json:"owner"`
-			Repo  string `json:"repo" zeit:"required"`
-			Path  string `json:"path"`
-			Ref   string `json:"ref"`
+			User      string `json:"user"`
+			Sort      string `json:"sort"`
+			Direction string `json:"direction"`
 		}
 	)
+
 	c := cloudpkgs.NewContext(w, r)
 	err := c.ShouldBind(&github)
 	if err != nil {
@@ -47,13 +46,16 @@ func GetContents(w http.ResponseWriter, r *http.Request) {
 	tc := oauth2.NewClient(ctx, ts)
 	client := cloudapi.NewAPIClient(tc)
 
-	opt := &gogithub.RepositoryContentGetOptions{Ref: github.Ref}
+	opt := gogithub.ActivityListStarredOptions{
+		Sort:      github.Sort,
+		Direction: github.Direction,
+	}
 
-	_, contentList, _, err := client.Client.Repositories.GetContents(ctx, github.Owner, github.Repo, github.Path, opt)
+	star, _, err := client.Client.Activity.ListStarred(ctx, github.User, &opt)
 	if err != nil {
 		c.WriteJSON(http.StatusRequestTimeout, cloudpkgs.H{"status": http.StatusRequestTimeout})
 		return
 	}
 
-	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK, "contents": contentList})
+	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK, "star": star})
 }

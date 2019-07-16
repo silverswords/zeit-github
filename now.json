@@ -7,6 +7,7 @@
     "routes": [
         { "src": "/api/v1/github/user",             "dest": "user.go" },
         { "src": "/api/v1/github/user/repo",        "dest": "user_repo.go" },
+        { "src": "/api/v1/github/user/star",        "dest": "user_star.go" },
         { "src": "/api/v1/github/user/follower",    "dest": "user_follower.go" },
         { "src": "/api/v1/github/user/following",   "dest": "user_following.go" },
 
@@ -18,6 +19,10 @@
 
         { "src": "/api/v1/github/issue/get",         "dest": "issue_get.go" },
         { "src": "/api/v1/github/issue/list",        "dest": "issue_list.go" },
+        { "src": "/api/v1/github/issue/edit",        "dest": "issue_edit.go" },
+        { "src": "/api/v1/github/issue/lock",        "dest": "issue_lock.go" },
+        { "src": "/api/v1/github/issue/unlock",      "dest": "issue_unlock.go" },
+        { "src": "/api/v1/github/issue/create",      "dest": "issue_create.go" },
        
         { "src": "/api/v1/github/repo/commit",      "dest": "repo_commits.go" },
         { "src": "/api/v1/github/repo/content",     "dest": "repo_content.go" },

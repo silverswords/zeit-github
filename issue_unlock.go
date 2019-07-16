@@ -4,25 +4,22 @@ import (
 	"context"
 	"net/http"
 
-	gogithub "github.com/google/go-github/github"
 	cloudapi "github.com/silverswords/clouds/openapi/github"
 	util "github.com/silverswords/clouds/pkgs/http"
 	cloudpkgs "github.com/silverswords/clouds/pkgs/http/context"
 	"golang.org/x/oauth2"
 )
 
-// GetContents return either the metadata and content of a single file
-// (when path references a file) or the metadata of all the files and/or
-// subdirectories of a directory (when path references a directory)
-func GetContents(w http.ResponseWriter, r *http.Request) {
+// IssueUnlock unlock an issue's conversation.
+func IssueUnlock(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			Owner string `json:"owner"`
-			Repo  string `json:"repo" zeit:"required"`
-			Path  string `json:"path"`
-			Ref   string `json:"ref"`
+			Owner  string `json:"owner" zeit:"required"`
+			Repo   string `json:"repo" zeit:"required"`
+			Number int    `json:"number" zeit:"required"`
 		}
 	)
+
 	c := cloudpkgs.NewContext(w, r)
 	err := c.ShouldBind(&github)
 	if err != nil {
@@ -47,13 +44,11 @@ func GetContents(w http.ResponseWriter, r *http.Request) {
 	tc := oauth2.NewClient(ctx, ts)
 	client := cloudapi.NewAPIClient(tc)
 
-	opt := &gogithub.RepositoryContentGetOptions{Ref: github.Ref}
-
-	_, contentList, _, err := client.Client.Repositories.GetContents(ctx, github.Owner, github.Repo, github.Path, opt)
+	_, err = client.Client.Issues.Unlock(ctx, github.Owner, github.Repo, github.Number)
 	if err != nil {
 		c.WriteJSON(http.StatusRequestTimeout, cloudpkgs.H{"status": http.StatusRequestTimeout})
 		return
 	}
 
-	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK, "contents": contentList})
+	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK})
 }

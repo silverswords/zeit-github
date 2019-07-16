@@ -1,11 +1,13 @@
 package github
 
 import (
+	"context"
 	"net/http"
 
 	cloudapi "github.com/silverswords/clouds/openapi/github"
 	util "github.com/silverswords/clouds/pkgs/http"
 	cloudpkgs "github.com/silverswords/clouds/pkgs/http/context"
+	"golang.org/x/oauth2"
 )
 
 // Contributor API for a list of Contributors in the repositiry
@@ -32,9 +34,16 @@ func Contributor(w http.ResponseWriter, r *http.Request) {
 
 	token := c.Request.Header
 	t := token.Get("Authorization")
-	s := cloudapi.NewService(t)
 
-	contributor, err := s.Contributor(github.Owner, github.Repo)
+	ctx := context.Background()
+	ts := oauth2.StaticTokenSource(
+		&oauth2.Token{AccessToken: t},
+	)
+
+	tc := oauth2.NewClient(ctx, ts)
+	client := cloudapi.NewAPIClient(tc)
+
+	contributor, _, err := client.Client.Repositories.ListContributorsStats(ctx, github.Owner, github.Repo)
 	if err != nil {
 		c.WriteJSON(http.StatusRequestTimeout, cloudpkgs.H{"status": http.StatusRequestTimeout})
 		return
