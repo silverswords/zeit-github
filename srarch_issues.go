@@ -8,21 +8,21 @@ import (
 	cloudapi "github.com/silverswords/clouds/openapi/github"
 	util "github.com/silverswords/clouds/pkgs/http"
 	cloudpkgs "github.com/silverswords/clouds/pkgs/http/context"
-	"golang.org/x/oauth2"
 )
 
-// UsersReposList lists the repositories for a user.
-func UsersReposList(w http.ResponseWriter, r *http.Request) {
+// SearchIssues searches repositories via various criteria.
+func SearchIssues(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			Visibility  string `json:"visibility"`
-			Affiliation string `json:"affiliation"`
-			Direction   string `json:"direction"`
-			Sort        string `json:"sort"`
-			Page        int    `json:"page"`
-			PerPage     int    `josn:"per_page"`
+			Key       string `json:"key"      zeit:"required"`
+			Sort      string `json:"sort"`
+			Order     string `json:"order"`
+			TextMatch bool   `json:"text_match"`
+			Page      int    `json:"page"`
+			PerPage   int    `json:"per_page"`
 		}
 	)
+
 	c := cloudpkgs.NewContext(w, r)
 	err := c.ShouldBind(&github)
 	if err != nil {
@@ -36,35 +36,25 @@ func UsersReposList(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	token := c.Request.Header
-	t := token.Get("Authorization")
-
+	client := cloudapi.NewAPIClient(nil)
 	ctx := context.Background()
-	ts := oauth2.StaticTokenSource(
-		&oauth2.Token{AccessToken: t},
-	)
-
-	tc := oauth2.NewClient(ctx, ts)
-	client := cloudapi.NewAPIClient(tc)
 
 	options := gogithub.ListOptions{
 		Page:    github.Page,
 		PerPage: github.PerPage,
 	}
-
-	opt := gogithub.RepositoryListOptions{
-		Visibility:  github.Visibility,
-		Affiliation: github.Affiliation,
+	opts := &gogithub.SearchOptions{
 		Sort:        github.Sort,
-		Direction:   github.Direction,
+		Order:       github.Order,
+		TextMatch:   github.TextMatch,
 		ListOptions: options,
 	}
 
-	repolist, _, err := client.Client.Repositories.List(ctx, "", &opt)
+	repo, _, err := client.Client.Search.Issues(ctx, github.Key, opts)
 	if err != nil {
 		c.WriteJSON(http.StatusRequestTimeout, cloudpkgs.H{"status": http.StatusRequestTimeout})
 		return
 	}
 
-	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK, "repo_list": repolist})
+	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK, "repo": repo})
 }

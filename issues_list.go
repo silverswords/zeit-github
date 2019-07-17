@@ -25,6 +25,8 @@ func IssueList(w http.ResponseWriter, r *http.Request) {
 			Sort      string    `json:"sort"`
 			Direction string    `json:"direction"`
 			Since     time.Time `json:"since"`
+			Page      int       `json:"page"`
+			PerPage   int       `json:"per_page"`
 		}
 	)
 	c := cloudpkgs.NewContext(w, r)
@@ -51,12 +53,18 @@ func IssueList(w http.ResponseWriter, r *http.Request) {
 	tc := oauth2.NewClient(ctx, ts)
 	client := cloudapi.NewAPIClient(tc)
 
+	options := gogithub.ListOptions{
+		Page:    github.Page,
+		PerPage: github.PerPage,
+	}
+
 	opt := &gogithub.IssueListOptions{
-		Filter:    github.Filter,
-		State:     github.State,
-		Sort:      github.Sort,
-		Direction: github.Direction,
-		Since:     github.Since,
+		Filter:      github.Filter,
+		State:       github.State,
+		Sort:        github.Sort,
+		Direction:   github.Direction,
+		Since:       github.Since,
+		ListOptions: options,
 	}
 
 	issueList, _, err := client.Client.Issues.List(ctx, github.All, opt)

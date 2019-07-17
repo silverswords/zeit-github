@@ -47,7 +47,9 @@ func GetContents(w http.ResponseWriter, r *http.Request) {
 	tc := oauth2.NewClient(ctx, ts)
 	client := cloudapi.NewAPIClient(tc)
 
-	opt := &gogithub.RepositoryContentGetOptions{Ref: github.Ref}
+	opt := &gogithub.RepositoryContentGetOptions{
+		Ref: github.Ref,
+	}
 
 	_, contentList, _, err := client.Client.Repositories.GetContents(ctx, github.Owner, github.Repo, github.Path, opt)
 	if err != nil {

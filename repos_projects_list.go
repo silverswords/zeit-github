@@ -15,9 +15,11 @@ import (
 func RepoProjectList(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			Owner string `json:"owner" zeit:"required"`
-			Repo  string `json:"repo"  zeit:"required"`
-			State string `json:"state" zeit:"required"`
+			Owner   string `json:"owner" zeit:"required"`
+			Repo    string `json:"repo"  zeit:"required"`
+			State   string `json:"state" zeit:"required"`
+			Page    int    `json:"page"`
+			PerPage int    `json:"per_page"`
 		}
 	)
 
@@ -45,9 +47,16 @@ func RepoProjectList(w http.ResponseWriter, r *http.Request) {
 	tc := oauth2.NewClient(ctx, ts)
 	client := cloudapi.NewAPIClient(tc)
 
-	opt := &gogithub.ProjectListOptions{
-		State: github.State,
+	options := gogithub.ListOptions{
+		Page:    github.Page,
+		PerPage: github.PerPage,
 	}
+
+	opt := &gogithub.ProjectListOptions{
+		State:       github.State,
+		ListOptions: options,
+	}
+
 	contributor, _, err := client.Client.Repositories.ListProjects(ctx, github.Owner, github.Repo, opt)
 	if err != nil {
 		c.WriteJSON(http.StatusRequestTimeout, cloudpkgs.H{"status": http.StatusRequestTimeout})

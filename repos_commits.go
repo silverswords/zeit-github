@@ -3,7 +3,9 @@ package github
 import (
 	"context"
 	"net/http"
+	"time"
 
+	gogithub "github.com/google/go-github/github"
 	cloudapi "github.com/silverswords/clouds/openapi/github"
 	util "github.com/silverswords/clouds/pkgs/http"
 	cloudpkgs "github.com/silverswords/clouds/pkgs/http/context"
@@ -14,8 +16,15 @@ import (
 func CommitsList(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			Owner string `json:"owner"`
-			Repo  string `json:"repo"  zeit:"required"`
+			Owner   string    `json:"owner"`
+			Repo    string    `json:"repo"  zeit:"required"`
+			SHA     string    `json:"sha"`
+			Path    string    `json:"path"`
+			Author  string    `json:"author"`
+			Since   time.Time `json:"since"`
+			Until   time.Time `josn:"until"`
+			Page    int       `json:"page"`
+			PerPage int       `josn:"per_page"`
 		}
 	)
 	c := cloudpkgs.NewContext(w, r)
@@ -42,7 +51,21 @@ func CommitsList(w http.ResponseWriter, r *http.Request) {
 	tc := oauth2.NewClient(ctx, ts)
 	client := cloudapi.NewAPIClient(tc)
 
-	commits, _, err := client.Client.Repositories.ListCommits(ctx, github.Owner, github.Repo, nil)
+	options := gogithub.ListOptions{
+		Page:    github.Page,
+		PerPage: github.PerPage,
+	}
+
+	opt := &gogithub.CommitsListOptions{
+		SHA:         github.SHA,
+		Path:        github.Path,
+		Author:      github.Author,
+		Since:       github.Since,
+		Until:       github.Until,
+		ListOptions: options,
+	}
+
+	commits, _, err := client.Client.Repositories.ListCommits(ctx, github.Owner, github.Repo, opt)
 	if err != nil {
 		c.WriteJSON(http.StatusRequestTimeout, cloudpkgs.H{"status": http.StatusRequestTimeout})
 		return

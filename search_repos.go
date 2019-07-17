@@ -14,10 +14,12 @@ import (
 func SearchRepo(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			Key     string `json:"key"      zeit:"required"`
-			Sort    string `json:"sort"     zeit:"required"`
-			Page    int    `json:"page"     zeit:"required"`
-			PerPage int    `json:"per_page" zeit:"required"`
+			Key       string `json:"key"      zeit:"required"`
+			Sort      string `json:"sort"`
+			Order     string `json:"order"`
+			TextMatch bool   `json:"text_match"`
+			Page      int    `json:"page"`
+			PerPage   int    `json:"per_page"`
 		}
 	)
 
@@ -37,9 +39,16 @@ func SearchRepo(w http.ResponseWriter, r *http.Request) {
 	client := cloudapi.NewAPIClient(nil)
 	ctx := context.Background()
 
-	options := gogithub.ListOptions{Page: github.Page, PerPage: github.PerPage}
-	opts := &gogithub.SearchOptions{Sort: github.Sort, Order: "desc", ListOptions: options}
-
+	options := gogithub.ListOptions{
+		Page:    github.Page,
+		PerPage: github.PerPage,
+	}
+	opts := &gogithub.SearchOptions{
+		Sort:        github.Sort,
+		Order:       github.Order,
+		TextMatch:   github.TextMatch,
+		ListOptions: options,
+	}
 	repo, _, err := client.Client.Search.Repositories(ctx, github.Key, opts)
 	if err != nil {
 		c.WriteJSON(http.StatusRequestTimeout, cloudpkgs.H{"status": http.StatusRequestTimeout})

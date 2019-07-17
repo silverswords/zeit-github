@@ -11,14 +11,16 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// ListStarred lists all the repos starred by a user. Passing the empty string
+// UsersStars lists all the repos starred by a user. Passing the empty string
 // will list the starred repositories for the authenticated user.
-func ListStarred(w http.ResponseWriter, r *http.Request) {
+func UsersStars(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
 			User      string `json:"user"`
 			Sort      string `json:"sort"`
 			Direction string `json:"direction"`
+			Page      int    `json:"page"`
+			PerPage   int    `json:"per_page"`
 		}
 	)
 
@@ -46,9 +48,15 @@ func ListStarred(w http.ResponseWriter, r *http.Request) {
 	tc := oauth2.NewClient(ctx, ts)
 	client := cloudapi.NewAPIClient(tc)
 
+	options := gogithub.ListOptions{
+		Page:    github.Page,
+		PerPage: github.PerPage,
+	}
+
 	opt := gogithub.ActivityListStarredOptions{
-		Sort:      github.Sort,
-		Direction: github.Direction,
+		Sort:        github.Sort,
+		Direction:   github.Direction,
+		ListOptions: options,
 	}
 
 	star, _, err := client.Client.Activity.ListStarred(ctx, github.User, &opt)

@@ -9,8 +9,8 @@ import (
 	cloudpkgs "github.com/silverswords/clouds/pkgs/http/context"
 )
 
-// User Get fetches a user.
-func User(w http.ResponseWriter, r *http.Request) {
+// Users fetches a user.
+func Users(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
 			User string `json:"user" zeit:"required"`

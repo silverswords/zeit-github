@@ -10,16 +10,13 @@ import (
 	cloudpkgs "github.com/silverswords/clouds/pkgs/http/context"
 )
 
-// SearchUser searches users via various criteria.
-func SearchUser(w http.ResponseWriter, r *http.Request) {
+// UsersFollowers lists the followers for a user.
+func UsersFollowers(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			Key       string `json:"key"      zeit:"required"`
-			Sort      string `json:"sort"`
-			Order     string `json:"order"`
-			TextMatch bool   `json:"text_match"`
-			Page      int    `json:"page"`
-			PerPage   int    `json:"per_page"`
+			User    string `json:"user"      zeit:"required"`
+			Page    int    `json:"page"`
+			PerPage int    `json:"per_page"`
 		}
 	)
 
@@ -39,22 +36,16 @@ func SearchUser(w http.ResponseWriter, r *http.Request) {
 	client := cloudapi.NewAPIClient(nil)
 	ctx := context.Background()
 
-	options := gogithub.ListOptions{
+	options := &gogithub.ListOptions{
 		Page:    github.Page,
 		PerPage: github.PerPage,
 	}
-	opts := &gogithub.SearchOptions{
-		Sort:        github.Sort,
-		Order:       github.Order,
-		TextMatch:   github.TextMatch,
-		ListOptions: options,
-	}
 
-	user, _, err := client.Client.Search.Users(ctx, github.Key, opts)
+	followers, _, err := client.Client.Users.ListFollowers(ctx, github.User, options)
 	if err != nil {
 		c.WriteJSON(http.StatusRequestTimeout, cloudpkgs.H{"status": http.StatusRequestTimeout})
 		return
 	}
 
-	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK, "user": user})
+	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK, "followers": followers})
 }

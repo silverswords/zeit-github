@@ -10,8 +10,8 @@ import (
 	cloudpkgs "github.com/silverswords/clouds/pkgs/http/context"
 )
 
-// Following lists the people that a user is following.
-func Following(w http.ResponseWriter, r *http.Request) {
+// UserFollowing lists the people that a user is following.
+func UserFollowing(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
 			User    string `json:"user"      zeit:"required"`
@@ -36,7 +36,10 @@ func Following(w http.ResponseWriter, r *http.Request) {
 	client := cloudapi.NewAPIClient(nil)
 	ctx := context.Background()
 
-	options := &gogithub.ListOptions{Page: github.Page, PerPage: github.PerPage}
+	options := &gogithub.ListOptions{
+		Page:    github.Page,
+		PerPage: github.PerPage,
+	}
 
 	following, _, err := client.Client.Users.ListFollowers(ctx, github.User, options)
 	if err != nil {
