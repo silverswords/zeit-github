@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	gogithub "github.com/google/go-github/github"
+	gogithub "github.com/google/go-github/v27/github"
 
 	cloudapi "github.com/silverswords/clouds/openapi/github"
 	util "github.com/silverswords/clouds/pkgs/http"
