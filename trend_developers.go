@@ -8,8 +8,8 @@ import (
 	cloudpkgs "github.com/silverswords/clouds/pkgs/http/context"
 )
 
-// DeveloperTrend return an array of trending developers.
-func DeveloperTrend(w http.ResponseWriter, r *http.Request) {
+// TrendDevelopers return an array of trending developers.
+func TrendDevelopers(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
 			Language  string `json:"language" `

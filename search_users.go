@@ -10,8 +10,8 @@ import (
 	cloudpkgs "github.com/silverswords/clouds/pkgs/http/context"
 )
 
-// SearchUser searches users via various criteria.
-func SearchUser(w http.ResponseWriter, r *http.Request) {
+// SearchUsers searches users via various criteria.
+func SearchUsers(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
 			Key       string `json:"key"      zeit:"required"`

@@ -16,8 +16,8 @@ func OrgsProjectsAdd(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
 			Org                    string `json:"org"   zeit:"required"`
-			Name                   string `json:"name"   zeit:"required"`
-			Body                   string `json:"body"   zeit:"required"`
+			Name                   string `json:"name"  zeit:"required"`
+			Body                   string `json:"body"`
 			State                  string `json:"state"`
 			Public                 bool   `json:"pulic"`
 			OrganizationPermission string `json:"organizationPermission"`

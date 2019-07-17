@@ -17,7 +17,7 @@ func RepoProjectList(w http.ResponseWriter, r *http.Request) {
 		github struct {
 			Owner   string `json:"owner" zeit:"required"`
 			Repo    string `json:"repo"  zeit:"required"`
-			State   string `json:"state" zeit:"required"`
+			State   string `json:"state"`
 			Page    int    `json:"page"`
 			PerPage int    `json:"per_page"`
 		}

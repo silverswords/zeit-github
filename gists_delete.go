@@ -10,7 +10,7 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// GistDelete  delete gist for a user.
+// GistDelete delete gist for a user.
 func GistDelete(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {

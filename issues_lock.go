@@ -11,7 +11,7 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// IssueLock lock an issue's conversation.
+// IssueLock locks an issue's conversation.
 func IssueLock(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {

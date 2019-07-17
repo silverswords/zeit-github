@@ -11,9 +11,9 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// UsersStars lists all the repos starred by a user. Passing the empty string
+// UsersStarred lists all the repos starred by a user. Passing the empty string
 // will list the starred repositories for the authenticated user.
-func UsersStars(w http.ResponseWriter, r *http.Request) {
+func UsersStarred(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
 			User      string `json:"user"`

@@ -16,9 +16,9 @@ import (
 func UserOrgs(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			User    string `json:"user"     zeit:"required"`
-			Page    int    `json:"page"     zeit:"required"`
-			PerPage int    `json:"per_page" zeit:"required"`
+			User    string `json:"user"`
+			Page    int    `json:"page"`
+			PerPage int    `json:"per_page"`
 		}
 	)
 

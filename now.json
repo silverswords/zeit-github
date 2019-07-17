@@ -7,6 +7,7 @@
     "routes": [
         { "src": "/api/v1/github/users",                "dest": "users.go" },
         { "src": "/api/v1/github/users/repos",          "dest": "users_repos.go" },
+        { "src": "/api/v1/github/users/self/repos",     "dest": "users_self_repos.go" },
         { "src": "/api/v1/github/users/orgs",           "dest": "users_orgs.go" },
         { "src": "/api/v1/github/users/stars",          "dest": "users_stars.go" },
         { "src": "/api/v1/github/users/followers",      "dest": "users_followers.go" },

@@ -14,9 +14,9 @@ import (
 func IssueGet(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			Owner  string `json:"owner"`
-			Repo   string `json:"repo"`
-			Number int    `json:"number"`
+			Owner  string `json:"owner"  zeit:"required"`
+			Repo   string `json:"repo"   zeit:"required"`
+			Number int    `json:"number" zeit:"required"`
 		}
 	)
 	c := cloudpkgs.NewContext(w, r)

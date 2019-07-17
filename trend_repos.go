@@ -8,8 +8,8 @@ import (
 	cloudpkgs "github.com/silverswords/clouds/pkgs/http/context"
 )
 
-// RepoTrend return an array of trending repositories.
-func RepoTrend(w http.ResponseWriter, r *http.Request) {
+// TrendRepos return an array of trending repositories.
+func TrendRepos(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
 			Language  string `json:"language"`

@@ -12,16 +12,17 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// IssueList list the issues for the authenticated user. If all is true, list issues
+// IssueList lists the issues for the authenticated user. If all is true, list issues
 // across all the user's visible repositories including owned, member, and
 // organization repositories; if false, list only owned and member
 // repositories.
 func IssueList(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			All       bool      `json:"all"`
+			All       bool      `json:"all"     zeit:"required"`
 			Filter    string    `json:"filter"`
 			State     string    `json:"state"`
+			Labels    []string  `json:"labels"`
 			Sort      string    `json:"sort"`
 			Direction string    `json:"direction"`
 			Since     time.Time `json:"since"`
@@ -61,6 +62,7 @@ func IssueList(w http.ResponseWriter, r *http.Request) {
 	opt := &gogithub.IssueListOptions{
 		Filter:      github.Filter,
 		State:       github.State,
+		Labels:      github.Labels,
 		Sort:        github.Sort,
 		Direction:   github.Direction,
 		Since:       github.Since,

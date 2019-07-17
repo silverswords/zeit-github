@@ -10,8 +10,9 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// Contributor API for a list of Contributors in the repositiry
-func Contributor(w http.ResponseWriter, r *http.Request) {
+// RepoContributor gets a repo's contributor list with additions,
+// deletions and commit counts.
+func RepoContributor(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
 			Owner string `json:"owner" zeit:"required"`

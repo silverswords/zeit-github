@@ -11,15 +11,17 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// UsersReposList lists the repositories for a user.
-func UsersReposList(w http.ResponseWriter, r *http.Request) {
+// UsersSelfRepos lists repositories for the authenticated user.
+func UsersSelfRepos(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			UserName string `json:"user_name" zeit:"required"`
-			Type     string `json:"type"`
-			Sort     string `json:"sort"`
-			Page     int    `json:"page"`
-			PerPage  int    `josn:"per_page"`
+			Visibility  string `json:"visibility"`
+			Affiliation string `json:"affiliation"`
+			Direction   string `json:"direction"`
+			Type        string `json:"type"`
+			Sort        string `json:"sort"`
+			Page        int    `json:"page"`
+			PerPage     int    `josn:"per_page"`
 		}
 	)
 	c := cloudpkgs.NewContext(w, r)
@@ -52,14 +54,17 @@ func UsersReposList(w http.ResponseWriter, r *http.Request) {
 	}
 
 	opt := gogithub.RepositoryListOptions{
+		Visibility:  github.Visibility,
+		Affiliation: github.Affiliation,
 		Type:        github.Type,
 		Sort:        github.Sort,
+		Direction:   github.Direction,
 		ListOptions: options,
 	}
 
-	repolist, _, err := client.Client.Repositories.List(ctx, github.UserName, &opt)
+	repolist, _, err := client.Client.Repositories.List(ctx, "", &opt)
 	if err != nil {
-		c.WriteJSON(http.StatusRequestTimeout, cloudpkgs.H{"status": err})
+		c.WriteJSON(http.StatusRequestTimeout, cloudpkgs.H{"status": http.StatusRequestTimeout})
 		return
 	}
 

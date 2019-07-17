@@ -7,13 +7,14 @@ import (
 	cloudapi "github.com/silverswords/clouds/openapi/github"
 	util "github.com/silverswords/clouds/pkgs/http"
 	cloudpkgs "github.com/silverswords/clouds/pkgs/http/context"
+	"golang.org/x/oauth2"
 )
 
 // Users fetches a user.
 func Users(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			User string `json:"user" zeit:"required"`
+			User string `json:"user"`
 		}
 	)
 
@@ -30,8 +31,16 @@ func Users(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	client := cloudapi.NewAPIClient(nil)
+	token := c.Request.Header
+	t := token.Get("Authorization")
+
 	ctx := context.Background()
+	ts := oauth2.StaticTokenSource(
+		&oauth2.Token{AccessToken: t},
+	)
+
+	tc := oauth2.NewClient(ctx, ts)
+	client := cloudapi.NewAPIClient(tc)
 
 	user, _, err := client.Client.Users.Get(ctx, github.User)
 	if err != nil {

@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	gogithub "github.com/google/go-github/v27/github"
-
 	cloudapi "github.com/silverswords/clouds/openapi/github"
 	util "github.com/silverswords/clouds/pkgs/http"
 	cloudpkgs "github.com/silverswords/clouds/pkgs/http/context"
@@ -16,10 +15,10 @@ import (
 func IssueAdd(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			Owner     string   `json:"owner" zeit:"required"`
-			Repo      string   `json:"repo" zeit:"required"`
+			Owner     string   `json:"owner"  zeit:"required"`
+			Repo      string   `json:"repo"   zeit:"required"`
 			Title     string   `json:"title"  zeit:"required"`
-			Body      string   `json:"body" zeit:"required"`
+			Body      string   `json:"body"`
 			Labels    []string `json:"labels"`
 			Assignee  string   `json:"assignee"`
 			State     string   `json:"state"`

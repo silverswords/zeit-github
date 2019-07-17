@@ -10,8 +10,8 @@ import (
 	cloudpkgs "github.com/silverswords/clouds/pkgs/http/context"
 )
 
-// SearchRepo searches repositories via various criteria.
-func SearchRepo(w http.ResponseWriter, r *http.Request) {
+// SearchRepos searches repositories via various criteria.
+func SearchRepos(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
 			Key       string `json:"key"      zeit:"required"`

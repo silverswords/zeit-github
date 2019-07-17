@@ -11,14 +11,14 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// GetContents return either the metadata and content of a single file
+// ReposContents return either the metadata and content of a single file
 // (when path references a file) or the metadata of all the files and/or
 // subdirectories of a directory (when path references a directory)
-func GetContents(w http.ResponseWriter, r *http.Request) {
+func ReposContents(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			Owner string `json:"owner"`
-			Repo  string `json:"repo" zeit:"required"`
+			Owner string `json:"owner" zeit:"required"`
+			Repo  string `json:"repo"  zeit:"required"`
 			Path  string `json:"path"`
 			Ref   string `json:"ref"`
 		}

@@ -15,8 +15,8 @@ import (
 func GistAdd(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			Public      bool                  `json:"public"      zeit:"required"`
-			Description string                `json:"description" zeit:"required"`
+			Public      bool                  `json:"public"`
+			Description string                `json:"description"`
 			FileName    gogithub.GistFilename `json:"filename"    zeit:"required"`
 			Content     string                `json:"cotent"      zeit:"required"`
 		}

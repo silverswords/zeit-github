@@ -12,11 +12,11 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// CommitsList lists the commits of a repository
-func CommitsList(w http.ResponseWriter, r *http.Request) {
+// ReposCommits lists the commits of a repository
+func ReposCommits(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			Owner   string    `json:"owner"`
+			Owner   string    `json:"owner" zeit:"required"`
 			Repo    string    `json:"repo"  zeit:"required"`
 			SHA     string    `json:"sha"`
 			Path    string    `json:"path"`

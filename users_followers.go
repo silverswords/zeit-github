@@ -10,11 +10,12 @@ import (
 	cloudpkgs "github.com/silverswords/clouds/pkgs/http/context"
 )
 
-// UsersFollowers lists the followers for a user.
+// UsersFollowers lists the followers for a user. Passing the empty string will
+// fetch followers for the authenticated user.
 func UsersFollowers(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			User    string `json:"user"      zeit:"required"`
+			User    string `json:"user"`
 			Page    int    `json:"page"`
 			PerPage int    `json:"per_page"`
 		}

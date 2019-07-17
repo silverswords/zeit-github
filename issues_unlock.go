@@ -10,7 +10,7 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// IssueUnlock unlock an issue's conversation.
+// IssueUnlock unlocks an issue's conversation.
 func IssueUnlock(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {

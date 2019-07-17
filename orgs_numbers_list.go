@@ -17,7 +17,7 @@ import (
 func OrgsNumbersList(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			Org        string `json:"org" zeit:"required"`
+			Org        string `json:"org"         zeit:"required"`
 			PublicOnly bool   `json:"public_only"`
 			Filter     string `json:"filter"`
 			Role       string `json:"role"`
