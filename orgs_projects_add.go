@@ -4,17 +4,23 @@ import (
 	"context"
 	"net/http"
 
+	gogithub "github.com/google/go-github/github"
 	cloudapi "github.com/silverswords/clouds/openapi/github"
 	util "github.com/silverswords/clouds/pkgs/http"
 	cloudpkgs "github.com/silverswords/clouds/pkgs/http/context"
 	"golang.org/x/oauth2"
 )
 
-// OrgsGet fetches an organization by name.
-func OrgsGet(w http.ResponseWriter, r *http.Request) {
+// OrgsProjectsAdd lists the projects for an organization.
+func OrgsProjectsAdd(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			Org string `json:"org" zeit:"required"`
+			Org                    string `json:"org"   zeit:"required"`
+			Name                   string `json:"name"   zeit:"required"`
+			Body                   string `json:"body"   zeit:"required"`
+			State                  string `json:"state"`
+			Public                 bool   `json:"pulic"`
+			OrganizationPermission string `json:"organizationPermission"`
 		}
 	)
 
@@ -42,11 +48,18 @@ func OrgsGet(w http.ResponseWriter, r *http.Request) {
 	tc := oauth2.NewClient(ctx, ts)
 	client := cloudapi.NewAPIClient(tc)
 
-	org, _, err := client.Client.Organizations.Get(ctx, github.Org)
+	opt := &gogithub.ProjectOptions{
+		Name:                   &github.Name,
+		Body:                   &github.Body,
+		State:                  &github.State,
+		OrganizationPermission: &github.OrganizationPermission,
+		Public:                 &github.Public,
+	}
+	project, _, err := client.Client.Organizations.CreateProject(ctx, github.Org, opt)
 	if err != nil {
 		c.WriteJSON(http.StatusRequestTimeout, cloudpkgs.H{"status": http.StatusRequestTimeout})
 		return
 	}
 
-	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK, "org": org})
+	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK, "project": project})
 }
