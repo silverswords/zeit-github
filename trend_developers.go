@@ -13,7 +13,7 @@ func TrendDevelopers(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
 			Language  string `json:"language" `
-			DataRange string `json:"datarange"`
+			DataRange string `json:"data_range"`
 		}
 	)
 

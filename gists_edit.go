@@ -18,7 +18,7 @@ func GistEdit(w http.ResponseWriter, r *http.Request) {
 			ID          string                `json:"id"          zeit:"required"`
 			Description string                `json:"description" zeit:"required"`
 			FileName    gogithub.GistFilename `json:"filename"    zeit:"required"`
-			Content     string                `json:"cotent"      zeit:"required"`
+			Content     string                `json:"content"     zeit:"required"`
 		}
 	)
 

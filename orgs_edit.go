@@ -22,7 +22,7 @@ func OrgsEdit(w http.ResponseWriter, r *http.Request) {
 			Email                 string `json:"email"`
 			Location              string `json:"locatin"`
 			Description           string `json:"description"`
-			DefaultRepoPermission string `json:"default__repo_permission"`
+			DefaultRepoPermission string `json:"default_repo_permission"`
 			MembersCanCreateRepos bool   `json:"members_can_create_repositories"`
 		}
 	)

@@ -18,7 +18,7 @@ func GistAdd(w http.ResponseWriter, r *http.Request) {
 			Public      bool                  `json:"public"`
 			Description string                `json:"description"`
 			FileName    gogithub.GistFilename `json:"filename"    zeit:"required"`
-			Content     string                `json:"cotent"      zeit:"required"`
+			Content     string                `json:"content"      zeit:"required"`
 		}
 	)
 

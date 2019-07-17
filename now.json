@@ -6,10 +6,10 @@
     ],
     "routes": [
         { "src": "/api/v1/github/users",                "dest": "users.go" },
-        { "src": "/api/v1/github/users/repos",          "dest": "users_repos.go" },
-        { "src": "/api/v1/github/users/self/repos",     "dest": "users_self_repos.go" },
         { "src": "/api/v1/github/users/orgs",           "dest": "users_orgs.go" },
         { "src": "/api/v1/github/users/stars",          "dest": "users_stars.go" },
+        { "src": "/api/v1/github/users/repos",          "dest": "users_repos.go" },
+        { "src": "/api/v1/github/users/self/repos",     "dest": "users_self_repos.go" },
         { "src": "/api/v1/github/users/followers",      "dest": "users_followers.go" },
         { "src": "/api/v1/github/users/following",      "dest": "users_following.go" },
 
@@ -20,11 +20,11 @@
         { "src": "/api/v1/github/gists/delete",         "dest": "gists_delete.go" },
        
         { "src": "/api/v1/github/repos/get",            "dest": "repos_get.go" },
-        { "src": "/api/v1/github/repos/commit",         "dest": "repos_commits.go" },
-        { "src": "/api/v1/github/repos/content",        "dest": "repos_contents.go" },
+        { "src": "/api/v1/github/repos/commits",        "dest": "repos_commits.go" },
+        { "src": "/api/v1/github/repos/contents",       "dest": "repos_contents.go" },
+        { "src": "/api/v1/github/repos/contributors",   "dest": "repos_contributors.go" },
         { "src": "/api/v1/github/repos/project/add",    "dest": "repos_projects_add.go" },
         { "src": "/api/v1/github/repos/project/list",   "dest": "repos_projects_list.go" },
-        { "src": "/api/v1/github/repos/contributor",    "dest": "repos_contributors.go" },
 
         { "src": "/api/v1/github/repos/issues/get",     "dest": "issues_get.go" },
         { "src": "/api/v1/github/repos/issues/list",    "dest": "issues_list.go" },
@@ -35,11 +35,10 @@
 
         { "src": "/api/v1/github/orgs/get",             "dest": "orgs_get.go" },
         { "src": "/api/v1/github/orgs/edit",            "dest": "orgs_edit.go" },
-        { "src": "/api/v1/github/orgs/numbers/list",    "dest": "orgs_numbers_list.go" },
-        { "src": "/api/v1/github/orgs/repos/list",      "dest": "orgs_repos_list.go" },
         { "src": "/api/v1/github/orgs/projects/add",    "dest": "orgs_repos_add.go" },
         { "src": "/api/v1/github/orgs/projects/list",   "dest": "orgs_repos_list.go" },
-        
+        { "src": "/api/v1/github/orgs/repos/list",      "dest": "orgs_repos_list.go" },
+        { "src": "/api/v1/github/orgs/numbers/list",    "dest": "orgs_numbers_list.go" },
         
         { "src": "/api/v1/github/search/repos",         "dest": "search_repos.go" },
         { "src": "/api/v1/github/search/users",         "dest": "search_users.go" },

@@ -13,7 +13,7 @@ func TrendRepos(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
 			Language  string `json:"language"`
-			DataRange string `json:"daterange"`
+			DataRange string `json:"data_range"`
 		}
 	)
 

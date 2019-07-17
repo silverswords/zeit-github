@@ -21,7 +21,7 @@ func RepoProjectAdd(w http.ResponseWriter, r *http.Request) {
 			Body                   string `json:"body"`
 			State                  string `json:"state"`
 			Public                 bool   `json:"pulic"`
-			OrganizationPermission string `json:"organizationPermission"`
+			OrganizationPermission string `json:"organization_permission"`
 		}
 	)
 
