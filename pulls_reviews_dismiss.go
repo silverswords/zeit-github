@@ -4,19 +4,22 @@ import (
 	"context"
 	"net/http"
 
+	gogithub "github.com/google/go-github/v27/github"
 	cloudapi "github.com/silverswords/clouds/openapi/github"
 	util "github.com/silverswords/clouds/pkgs/http"
 	cloudpkgs "github.com/silverswords/clouds/pkgs/http/context"
 	"golang.org/x/oauth2"
 )
 
-// ReleasesGet fetches a single release.
-func ReleasesGet(w http.ResponseWriter, r *http.Request) {
+// PullsReviewsDismiss dismisses a specified review on the specified pull request.
+func PullsReviewsDismiss(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			Owner string `json:"owner"    zeit:"required"`
-			Repo  string `json:"repo"     zeit:"required"`
-			ID    int64  `json:"id"       zeit:"required"`
+			Owner    string `json:"owner"     zeit:"required"`
+			Repo     string `json:"repo"      zeit:"required"`
+			Number   int    `json:"number"    zeit:"required"`
+			ReviewID int64  `json:"review_id" zeit:"required"`
+			Message  string `json:"message"`
 		}
 	)
 
@@ -44,11 +47,15 @@ func ReleasesGet(w http.ResponseWriter, r *http.Request) {
 	tc := oauth2.NewClient(ctx, ts)
 	client := cloudapi.NewAPIClient(tc)
 
-	release, _, err := client.Client.Repositories.GetRelease(ctx, github.Owner, github.Repo, github.ID)
+	opt := &gogithub.PullRequestReviewDismissalRequest{
+		Message: &github.Message,
+	}
+
+	pull, _, err := client.Client.PullRequests.DismissReview(ctx, github.Owner, github.Repo, github.Number, github.ReviewID, opt)
 	if err != nil {
 		c.WriteJSON(http.StatusRequestTimeout, cloudpkgs.H{"status": http.StatusRequestTimeout})
 		return
 	}
 
-	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK, "release": release})
+	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK, "pull_request_review": pull})
 }
