@@ -11,13 +11,13 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// GistAdd creates a gist for a user.
-func GistAdd(w http.ResponseWriter, r *http.Request) {
+// GistsAdd creates a gist for a user.
+func GistsAdd(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
 			Public      bool                  `json:"public"`
 			Description string                `json:"description"`
-			FileName    gogithub.GistFilename `json:"filename"    zeit:"required"`
+			FileName    gogithub.GistFilename `json:"filename"     zeit:"required"`
 			Content     string                `json:"content"      zeit:"required"`
 		}
 	)

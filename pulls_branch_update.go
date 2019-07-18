@@ -3,7 +3,6 @@ package github
 import (
 	"context"
 	"net/http"
-	"time"
 
 	gogithub "github.com/google/go-github/v27/github"
 	cloudapi "github.com/silverswords/clouds/openapi/github"
@@ -12,14 +11,14 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// GistsList  list gists for a user.
-func GistsList(w http.ResponseWriter, r *http.Request) {
+// PullsBranchUpdate updates the pull request branch with latest upstream changes.
+func PullsBranchUpdate(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			User    string    `json:"user" zeit:"required"`
-			Since   time.Time `json:"since"`
-			Page    int       `json:"page"`
-			PerPage int       `json:"per_page"`
+			Owner           string `json:"owner"  zeit:"required"`
+			Repo            string `json:"repo"   zeit:"required"`
+			Number          int    `json:"number" zeit:"required"`
+			ExpectedHeadSHA string `json:"expected_head_sha"`
 		}
 	)
 
@@ -47,20 +46,15 @@ func GistsList(w http.ResponseWriter, r *http.Request) {
 	tc := oauth2.NewClient(ctx, ts)
 	client := cloudapi.NewAPIClient(tc)
 
-	options := gogithub.ListOptions{
-		Page:    github.Page,
-		PerPage: github.PerPage,
+	opt := &gogithub.PullReqestBranchUpdateOptions{
+		ExpectedHeadSHA: &github.ExpectedHeadSHA,
 	}
 
-	opt := &gogithub.GistListOptions{
-		Since:       github.Since,
-		ListOptions: options,
-	}
-	gist, _, err := client.Client.Gists.List(ctx, github.User, opt)
+	pull, _, err := client.Client.PullRequests.UpdateBranch(ctx, github.Owner, github.Repo, github.Number, opt)
 	if err != nil {
 		c.WriteJSON(http.StatusRequestTimeout, cloudpkgs.H{"status": http.StatusRequestTimeout})
 		return
 	}
 
-	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK, "gists": gist})
+	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK, "pull_request": pull})
 }

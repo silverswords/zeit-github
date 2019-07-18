@@ -3,7 +3,6 @@ package github
 import (
 	"context"
 	"net/http"
-	"time"
 
 	gogithub "github.com/google/go-github/v27/github"
 	cloudapi "github.com/silverswords/clouds/openapi/github"
@@ -12,14 +11,18 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// GistsList  list gists for a user.
-func GistsList(w http.ResponseWriter, r *http.Request) {
+// PullsMerge merges a pull request (Merge Button™).
+// commitMessage is the title for the automatic commit message.
+func PullsMerge(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			User    string    `json:"user" zeit:"required"`
-			Since   time.Time `json:"since"`
-			Page    int       `json:"page"`
-			PerPage int       `json:"per_page"`
+			Owner         string `json:"owner"          zeit:"required"`
+			Repo          string `json:"repo"           zeit:"required"`
+			Number        int    `json:"number"         zeit:"required"`
+			CommitMessage string `json:"commit_message" zeit:"required"`
+			CommitTitle   string `json:"commit_title"`
+			SHA           string `json:"sha"`
+			MergeMethod   string `json:"merge_method"`
 		}
 	)
 
@@ -47,20 +50,17 @@ func GistsList(w http.ResponseWriter, r *http.Request) {
 	tc := oauth2.NewClient(ctx, ts)
 	client := cloudapi.NewAPIClient(tc)
 
-	options := gogithub.ListOptions{
-		Page:    github.Page,
-		PerPage: github.PerPage,
+	opt := &gogithub.PullRequestOptions{
+		CommitTitle: github.CommitTitle,
+		SHA:         github.SHA,
+		MergeMethod: github.MergeMethod,
 	}
 
-	opt := &gogithub.GistListOptions{
-		Since:       github.Since,
-		ListOptions: options,
-	}
-	gist, _, err := client.Client.Gists.List(ctx, github.User, opt)
+	pull, _, err := client.Client.PullRequests.Merge(ctx, github.Owner, github.Repo, github.Number, github.CommitMessage, opt)
 	if err != nil {
 		c.WriteJSON(http.StatusRequestTimeout, cloudpkgs.H{"status": http.StatusRequestTimeout})
 		return
 	}
 
-	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK, "gists": gist})
+	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK, "pull_request": pull})
 }

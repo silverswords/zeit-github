@@ -3,7 +3,6 @@ package github
 import (
 	"context"
 	"net/http"
-	"time"
 
 	gogithub "github.com/google/go-github/v27/github"
 	cloudapi "github.com/silverswords/clouds/openapi/github"
@@ -12,14 +11,19 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// GistsList  list gists for a user.
-func GistsList(w http.ResponseWriter, r *http.Request) {
+// PullsList lists the pull requests for the specified repository.
+func PullsList(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			User    string    `json:"user" zeit:"required"`
-			Since   time.Time `json:"since"`
-			Page    int       `json:"page"`
-			PerPage int       `json:"per_page"`
+			Owner     string `json:"owner" zeit:"required"`
+			Repo      string `json:"repo" zeit:"required"`
+			State     string `json:"state"`
+			Head      string `json:"head"`
+			Base      string `json:"base"`
+			Sort      string `json:"sort"`
+			Direction string `json:"direction"`
+			Page      int    `json:"page"`
+			PerPage   int    `json:"per_page"`
 		}
 	)
 
@@ -52,15 +56,20 @@ func GistsList(w http.ResponseWriter, r *http.Request) {
 		PerPage: github.PerPage,
 	}
 
-	opt := &gogithub.GistListOptions{
-		Since:       github.Since,
+	opt := &gogithub.PullRequestListOptions{
+		State:       github.State,
+		Head:        github.Head,
+		Base:        github.Base,
+		Sort:        github.Sort,
+		Direction:   github.Direction,
 		ListOptions: options,
 	}
-	gist, _, err := client.Client.Gists.List(ctx, github.User, opt)
+
+	pull, _, err := client.Client.PullRequests.List(ctx, github.Owner, github.Repo, opt)
 	if err != nil {
 		c.WriteJSON(http.StatusRequestTimeout, cloudpkgs.H{"status": http.StatusRequestTimeout})
 		return
 	}
 
-	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK, "gists": gist})
+	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK, "pull_request": pull})
 }

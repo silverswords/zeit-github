@@ -5,7 +5,7 @@
         { "src": "/*.go", "use": "@now/go" }
     ],
     "routes": [
-        { "src": "/api/v1/github/users",                "dest": "users.go" },
+        { "src": "/api/v1/github/users/info",           "dest": "users_info.go" },
         { "src": "/api/v1/github/users/orgs",           "dest": "users_orgs.go" },
         { "src": "/api/v1/github/users/stars",          "dest": "users_stars.go" },
         { "src": "/api/v1/github/users/repos",          "dest": "users_repos.go" },
@@ -25,6 +25,19 @@
         { "src": "/api/v1/github/repos/contributors",   "dest": "repos_contributors.go" },
         { "src": "/api/v1/github/repos/project/add",    "dest": "repos_projects_add.go" },
         { "src": "/api/v1/github/repos/project/list",   "dest": "repos_projects_list.go" },
+
+        { "src": "/api/v1/github/forks/list",           "dest": "forks_list.go" },
+        { "src": "/api/v1/github/forks/add",            "dest": "forks_add.go" },
+
+        { "src": "/api/v1/github/pulls/add",            "dest": "pulls_add.go" },
+        { "src": "/api/v1/github/pulls/get",            "dest": "pulls_get.go" },
+        { "src": "/api/v1/github/pulls/edit",           "dest": "pulls_edit.go" },
+        { "src": "/api/v1/github/pulls/list",           "dest": "pulls_list.go" },
+        { "src": "/api/v1/github/pulls/merge",          "dest": "pulls_merge.go" },
+        { "src": "/api/v1/github/pulls/get/raw",        "dest": "pulls_get_raw.go" },
+        { "src": "/api/v1/github/pulls/files/list",     "dest": "pulls_files_list.go" },
+        { "src": "/api/v1/github/pulls/commits/list",   "dest": "pulls_commits_list.go" },
+        { "src": "/api/v1/github/pulls/branch/update",  "dest": "pulls_branch_update.go" },   
 
         { "src": "/api/v1/github/repos/issues/get",     "dest": "issues_get.go" },
         { "src": "/api/v1/github/repos/issues/list",    "dest": "issues_list.go" },
