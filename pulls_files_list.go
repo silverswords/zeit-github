@@ -58,5 +58,5 @@ func PullsFilesList(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK, "pull_request": pull})
+	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK, "pull_files": pull})
 }

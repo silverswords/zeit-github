@@ -12,8 +12,6 @@ import (
 )
 
 // ReleasesAdd adds a new release for a repository.
-// Note that only a subset of the release fields are used.
-// See RepositoryRelease for more information.
 func ReleasesAdd(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {

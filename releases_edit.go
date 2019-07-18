@@ -12,8 +12,6 @@ import (
 )
 
 // ReleasesEdit edits a repository release.
-// Note that only a subset of the release fields are used.
-// See RepositoryRelease for more information.
 func ReleasesEdit(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {

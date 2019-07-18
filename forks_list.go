@@ -11,7 +11,7 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// ForksList  lists the forks of the specified repository.
+// ForksList lists the forks of the specified repository.
 func ForksList(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
@@ -57,11 +57,11 @@ func ForksList(w http.ResponseWriter, r *http.Request) {
 		ListOptions: options,
 	}
 
-	gist, _, err := client.Client.Repositories.ListForks(ctx, github.Owner, github.Repo, opt)
+	forks, _, err := client.Client.Repositories.ListForks(ctx, github.Owner, github.Repo, opt)
 	if err != nil {
 		c.WriteJSON(http.StatusRequestTimeout, cloudpkgs.H{"status": http.StatusRequestTimeout})
 		return
 	}
 
-	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK, "gists": gist})
+	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK, "forks": forks})
 }

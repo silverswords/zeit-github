@@ -55,11 +55,11 @@ func OrgsProjectsList(w http.ResponseWriter, r *http.Request) {
 		State:       github.State,
 		ListOptions: options,
 	}
-	numbers, _, err := client.Client.Organizations.ListProjects(ctx, github.Org, opt)
+	projects, _, err := client.Client.Organizations.ListProjects(ctx, github.Org, opt)
 	if err != nil {
 		c.WriteJSON(http.StatusRequestTimeout, cloudpkgs.H{"status": http.StatusRequestTimeout})
 		return
 	}
 
-	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK, "numbers": numbers})
+	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK, "projects": projects})
 }

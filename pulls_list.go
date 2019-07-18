@@ -16,7 +16,7 @@ func PullsList(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
 			Owner     string `json:"owner" zeit:"required"`
-			Repo      string `json:"repo" zeit:"required"`
+			Repo      string `json:"repo"  zeit:"required"`
 			State     string `json:"state"`
 			Head      string `json:"head"`
 			Base      string `json:"base"`

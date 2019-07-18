@@ -12,12 +12,6 @@ import (
 )
 
 // ForksAdd  creates a fork of the specified repository.
-// This method might return an *AcceptedError and a status code of
-// 202. This is because this is the status that GitHub returns to signify that
-// it is now computing creating the fork in a background task. In this event,
-// the Repository value will be returned, which includes the details about the pending fork.
-// A follow up request, after a delay of a second or so, should result
-// in a successful request.
 func ForksAdd(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
@@ -55,11 +49,11 @@ func ForksAdd(w http.ResponseWriter, r *http.Request) {
 		Organization: github.Organization,
 	}
 
-	gist, _, err := client.Client.Repositories.CreateFork(ctx, github.Owner, github.Repo, opt)
+	fork, _, err := client.Client.Repositories.CreateFork(ctx, github.Owner, github.Repo, opt)
 	if err != nil {
 		c.WriteJSON(http.StatusRequestTimeout, cloudpkgs.H{"status": http.StatusRequestTimeout})
 		return
 	}
 
-	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK, "gists": gist})
+	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK, "fork": fork})
 }

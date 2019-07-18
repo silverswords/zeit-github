@@ -75,5 +75,5 @@ func IssueList(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK, "issue_list": issueList})
+	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK, "issues": issueList})
 }

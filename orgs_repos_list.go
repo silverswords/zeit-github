@@ -55,11 +55,11 @@ func OrgsRepoList(w http.ResponseWriter, r *http.Request) {
 		Type:        github.Type,
 		ListOptions: options,
 	}
-	numbers, _, err := client.Client.Repositories.ListByOrg(ctx, github.Org, opt)
+	org, _, err := client.Client.Repositories.ListByOrg(ctx, github.Org, opt)
 	if err != nil {
 		c.WriteJSON(http.StatusRequestTimeout, cloudpkgs.H{"status": http.StatusRequestTimeout})
 		return
 	}
 
-	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK, "numbers": numbers})
+	c.WriteJSON(http.StatusOK, cloudpkgs.H{"status": http.StatusOK, "org_repo": org})
 }
