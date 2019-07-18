@@ -28,6 +28,20 @@
         { "src": "/api/v1/github/repos/project/add",    "dest": "repos_projects_add.go" },
         { "src": "/api/v1/github/repos/project/list",   "dest": "repos_projects_list.go" },
 
+        { "src": "/api/v1/github/repos/releases/add",   "dest": "releases_add.go" },
+        { "src": "/api/v1/github/repos/releases/get",   "dest": "releases_get.go" },
+        { "src": "/api/v1/github/repos/releases/edit",  "dest": "releases_edit.go" },
+        { "src": "/api/v1/github/repos/releases/list",  "dest": "releases_list.go" },
+        { "src": "/api/v1/github/repos/releases/delete","dest": "releases_delete.go" },
+        { "src": "/api/v1/github/repos/releases/latest","dest": "releases_latest.go" },
+
+        { "src": "/api/v1/github/repos/issues/get",     "dest": "issues_get.go" },
+        { "src": "/api/v1/github/repos/issues/list",    "dest": "issues_list.go" },
+        { "src": "/api/v1/github/repos/issues/edit",    "dest": "issues_edit.go" },
+        { "src": "/api/v1/github/repos/issues/lock",    "dest": "issues_lock.go" },
+        { "src": "/api/v1/github/repos/issues/unlock",  "dest": "issues_unlock.go" },
+        { "src": "/api/v1/github/repos/issues/create",  "dest": "issues_create.go" },
+
         { "src": "/api/v1/github/pulls/add",            "dest": "pulls_add.go" },
         { "src": "/api/v1/github/pulls/get",            "dest": "pulls_get.go" },
         { "src": "/api/v1/github/pulls/edit",           "dest": "pulls_edit.go" },
@@ -38,19 +52,12 @@
         { "src": "/api/v1/github/pulls/commits/list",   "dest": "pulls_commits_list.go" },
         { "src": "/api/v1/github/pulls/branch/update",  "dest": "pulls_branch_update.go" },   
 
-        { "src": "/api/v1/github/repos/issues/get",     "dest": "issues_get.go" },
-        { "src": "/api/v1/github/repos/issues/list",    "dest": "issues_list.go" },
-        { "src": "/api/v1/github/repos/issues/edit",    "dest": "issues_edit.go" },
-        { "src": "/api/v1/github/repos/issues/lock",    "dest": "issues_lock.go" },
-        { "src": "/api/v1/github/repos/issues/unlock",  "dest": "issues_unlock.go" },
-        { "src": "/api/v1/github/repos/issues/create",  "dest": "issues_create.go" },
-
         { "src": "/api/v1/github/orgs/get",             "dest": "orgs_get.go" },
         { "src": "/api/v1/github/orgs/edit",            "dest": "orgs_edit.go" },
-        { "src": "/api/v1/github/orgs/projects/add",    "dest": "orgs_repos_add.go" },
-        { "src": "/api/v1/github/orgs/projects/list",   "dest": "orgs_repos_list.go" },
         { "src": "/api/v1/github/orgs/repos/list",      "dest": "orgs_repos_list.go" },
         { "src": "/api/v1/github/orgs/numbers/list",    "dest": "orgs_numbers_list.go" },
+        { "src": "/api/v1/github/orgs/projects/add",    "dest": "orgs_projects_add.go" },
+        { "src": "/api/v1/github/orgs/projects/list",   "dest": "orgs_projects_list.go" },
         
         { "src": "/api/v1/github/search/repos",         "dest": "search_repos.go" },
         { "src": "/api/v1/github/search/users",         "dest": "search_users.go" },
