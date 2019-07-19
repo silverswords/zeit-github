@@ -11,21 +11,22 @@ import (
 
 // RateLimit returns the rate limits for the current client.
 func RateLimit(w http.ResponseWriter, r *http.Request) {
+	var tc *http.Client
+
 	c := cloudpkgs.NewContext(w, r)
+
+	ctx := context.Background()
 
 	token := c.Request.Header
 	t := token.Get("Authorization")
 
-	ts := oauth2.StaticTokenSource(
-		&oauth2.Token{AccessToken: t},
-	)
-
-	ctx := context.Background()
-	tc := oauth2.NewClient(ctx, ts)
-
-	if t == "" {
-		tc = nil
+	if t != "" {
+		ts := oauth2.StaticTokenSource(
+			&oauth2.Token{AccessToken: t},
+		)
+		tc = oauth2.NewClient(ctx, ts)
 	}
+
 	client := cloudapi.NewAPIClient(tc)
 
 	rate, _, err := client.Client.RateLimits(ctx)
