@@ -17,6 +17,8 @@ func ReleasesLastest(w http.ResponseWriter, r *http.Request) {
 			Owner string `json:"owner"    zeit:"required"`
 			Repo  string `json:"repo"     zeit:"required"`
 		}
+
+		tc *http.Client
 	)
 
 	c := cloudpkgs.NewContext(w, r)
@@ -32,15 +34,18 @@ func ReleasesLastest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	ctx := context.Background()
+
 	token := c.Request.Header
 	t := token.Get("Authorization")
 
-	ctx := context.Background()
-	ts := oauth2.StaticTokenSource(
-		&oauth2.Token{AccessToken: t},
-	)
+	if t != "" {
+		ts := oauth2.StaticTokenSource(
+			&oauth2.Token{AccessToken: t},
+		)
+		tc = oauth2.NewClient(ctx, ts)
+	}
 
-	tc := oauth2.NewClient(ctx, ts)
 	client := cloudapi.NewAPIClient(tc)
 
 	release, _, err := client.Client.Repositories.GetLatestRelease(ctx, github.Owner, github.Repo)

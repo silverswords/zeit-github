@@ -8,7 +8,6 @@ import (
 	cloudapi "github.com/silverswords/clouds/openapi/github"
 	util "github.com/silverswords/clouds/pkgs/http"
 	cloudpkgs "github.com/silverswords/clouds/pkgs/http/context"
-	"golang.org/x/oauth2"
 )
 
 // UsersReposList lists the repositories for a user.
@@ -35,16 +34,8 @@ func UsersReposList(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	token := c.Request.Header
-	t := token.Get("Authorization")
-
+	client := cloudapi.NewAPIClient(nil)
 	ctx := context.Background()
-	ts := oauth2.StaticTokenSource(
-		&oauth2.Token{AccessToken: t},
-	)
-
-	tc := oauth2.NewClient(ctx, ts)
-	client := cloudapi.NewAPIClient(tc)
 
 	options := gogithub.ListOptions{
 		Page:    github.Page,

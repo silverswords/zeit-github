@@ -22,6 +22,8 @@ func UsersStarred(w http.ResponseWriter, r *http.Request) {
 			Page      int    `json:"page"`
 			PerPage   int    `json:"per_page"`
 		}
+
+		tc *http.Client
 	)
 
 	c := cloudpkgs.NewContext(w, r)
@@ -37,15 +39,18 @@ func UsersStarred(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	ctx := context.Background()
+
 	token := c.Request.Header
 	t := token.Get("Authorization")
 
-	ctx := context.Background()
-	ts := oauth2.StaticTokenSource(
-		&oauth2.Token{AccessToken: t},
-	)
+	if t != "" {
+		ts := oauth2.StaticTokenSource(
+			&oauth2.Token{AccessToken: t},
+		)
+		tc = oauth2.NewClient(ctx, ts)
+	}
 
-	tc := oauth2.NewClient(ctx, ts)
 	client := cloudapi.NewAPIClient(tc)
 
 	options := gogithub.ListOptions{

@@ -19,6 +19,8 @@ func PullsReviewsGet(w http.ResponseWriter, r *http.Request) {
 			Number   int    `json:"number"    zeit:"required"`
 			ReviewID int64  `json:"review_id" zeit:"required"`
 		}
+
+		tc *http.Client
 	)
 
 	c := cloudpkgs.NewContext(w, r)
@@ -34,15 +36,18 @@ func PullsReviewsGet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	ctx := context.Background()
+
 	token := c.Request.Header
 	t := token.Get("Authorization")
 
-	ctx := context.Background()
-	ts := oauth2.StaticTokenSource(
-		&oauth2.Token{AccessToken: t},
-	)
+	if t != "" {
+		ts := oauth2.StaticTokenSource(
+			&oauth2.Token{AccessToken: t},
+		)
+		tc = oauth2.NewClient(ctx, ts)
+	}
 
-	tc := oauth2.NewClient(ctx, ts)
 	client := cloudapi.NewAPIClient(tc)
 
 	pull, _, err := client.Client.PullRequests.GetReview(ctx, github.Owner, github.Repo, github.Number, github.ReviewID)
