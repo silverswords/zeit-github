@@ -16,7 +16,7 @@ import (
 func GistsList(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
-			User    string    `json:"user" zeit:"required"`
+			User    string    `json:"user"`
 			Since   time.Time `json:"since"`
 			Page    int       `json:"page"`
 			PerPage int       `json:"per_page"`

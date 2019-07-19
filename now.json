@@ -5,6 +5,8 @@
         { "src": "/*.go", "use": "@now/go" }
     ],
     "routes": [
+        { "src": "/api/v1/github/rate_limit",             "dest": "rate_limit.go" },
+        
         { "src": "/api/v1/github/users/info",             "dest": "users_info.go" },
         { "src": "/api/v1/github/users/orgs",             "dest": "users_orgs.go" },
         { "src": "/api/v1/github/users/stars",            "dest": "users_stars.go" },
