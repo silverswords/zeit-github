@@ -41,10 +41,15 @@ func UsersStarred(w http.ResponseWriter, r *http.Request) {
 
 	ctx := context.Background()
 
-	token := c.Request.Header
-	t := token.Get("Authorization")
+	if github.User == "" {
+		token := c.Request.Header
+		t := token.Get("Authorization")
 
-	if t != "" {
+		if t == "" {
+			c.WriteJSON(http.StatusUnauthorized, cloudpkgs.H{"status": http.StatusUnauthorized})
+			return
+		}
+
 		ts := oauth2.StaticTokenSource(
 			&oauth2.Token{AccessToken: t},
 		)

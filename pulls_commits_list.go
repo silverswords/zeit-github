@@ -38,6 +38,10 @@ func PullsCommitsList(w http.ResponseWriter, r *http.Request) {
 
 	token := c.Request.Header
 	t := token.Get("Authorization")
+	if t == "" {
+		c.WriteJSON(http.StatusUnauthorized, cloudpkgs.H{"status": http.StatusUnauthorized})
+		return
+	}
 
 	ctx := context.Background()
 	ts := oauth2.StaticTokenSource(

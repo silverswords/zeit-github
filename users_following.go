@@ -8,6 +8,7 @@ import (
 	cloudapi "github.com/silverswords/clouds/openapi/github"
 	util "github.com/silverswords/clouds/pkgs/http"
 	cloudpkgs "github.com/silverswords/clouds/pkgs/http/context"
+	"golang.org/x/oauth2"
 )
 
 // UserFollowing lists the followers for a user. Passing the empty string will
@@ -19,6 +20,8 @@ func UserFollowing(w http.ResponseWriter, r *http.Request) {
 			Page    int    `json:"page"`
 			PerPage int    `json:"per_page"`
 		}
+
+		tc *http.Client
 	)
 
 	c := cloudpkgs.NewContext(w, r)
@@ -34,8 +37,24 @@ func UserFollowing(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	client := cloudapi.NewAPIClient(nil)
 	ctx := context.Background()
+
+	if github.User == "" {
+		token := c.Request.Header
+		t := token.Get("Authorization")
+
+		if t == "" {
+			c.WriteJSON(http.StatusUnauthorized, cloudpkgs.H{"status": http.StatusUnauthorized})
+			return
+		}
+
+		ts := oauth2.StaticTokenSource(
+			&oauth2.Token{AccessToken: t},
+		)
+		tc = oauth2.NewClient(ctx, ts)
+	}
+
+	client := cloudapi.NewAPIClient(tc)
 
 	options := &gogithub.ListOptions{
 		Page:    github.Page,
