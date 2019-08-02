@@ -43,6 +43,7 @@ func SearchCode(w http.ResponseWriter, r *http.Request) {
 		Page:    github.Page,
 		PerPage: github.PerPage,
 	}
+
 	opts := &gogithub.SearchOptions{
 		Sort:        github.Sort,
 		Order:       github.Order,

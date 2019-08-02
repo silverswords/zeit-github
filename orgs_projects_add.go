@@ -59,6 +59,7 @@ func OrgsProjectsAdd(w http.ResponseWriter, r *http.Request) {
 		OrganizationPermission: &github.OrganizationPermission,
 		Public:                 &github.Public,
 	}
+
 	project, _, err := client.Client.Organizations.CreateProject(ctx, github.Org, opt)
 	if err != nil {
 		c.WriteJSON(http.StatusRequestTimeout, cloudpkgs.H{"status": http.StatusRequestTimeout})

@@ -12,11 +12,11 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// IssueList lists the issues for the authenticated user. If all is true, list issues
+// IssuesList lists the issues for the authenticated user. If all is true, list issues
 // across all the user's visible repositories including owned, member, and
 // organization repositories; if false, list only owned and member
 // repositories.
-func IssueList(w http.ResponseWriter, r *http.Request) {
+func IssuesList(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
 			All       bool      `json:"all"     zeit:"required"`
@@ -30,6 +30,7 @@ func IssueList(w http.ResponseWriter, r *http.Request) {
 			PerPage   int       `json:"per_page"`
 		}
 	)
+
 	c := cloudpkgs.NewContext(w, r)
 	err := c.ShouldBind(&github)
 	if err != nil {

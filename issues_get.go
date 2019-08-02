@@ -10,8 +10,8 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// IssueGet Get a single issue.
-func IssueGet(w http.ResponseWriter, r *http.Request) {
+// IssuesGet Get a single issue.
+func IssuesGet(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
 			Owner  string `json:"owner"  zeit:"required"`

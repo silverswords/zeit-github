@@ -11,8 +11,8 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// IssueEdit  edits an issue.
-func IssueEdit(w http.ResponseWriter, r *http.Request) {
+// IssuesEdit  edits an issue.
+func IssuesEdit(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
 			Owner     string   `json:"owner"  zeit:"required"`

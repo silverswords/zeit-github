@@ -11,8 +11,8 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// IssueAdd creates a new issue on the specified repository.
-func IssueAdd(w http.ResponseWriter, r *http.Request) {
+// IssuesAdd creates a new issue on the specified repository.
+func IssuesAdd(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
 			Owner     string   `json:"owner"  zeit:"required"`

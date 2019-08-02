@@ -66,6 +66,7 @@ func GistsList(w http.ResponseWriter, r *http.Request) {
 		Since:       github.Since,
 		ListOptions: options,
 	}
+
 	gist, _, err := client.Client.Gists.List(ctx, github.User, opt)
 	if err != nil {
 		c.WriteJSON(http.StatusRequestTimeout, cloudpkgs.H{"status": http.StatusRequestTimeout})

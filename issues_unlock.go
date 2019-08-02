@@ -10,8 +10,8 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// IssueUnlock unlocks an issue's conversation.
-func IssueUnlock(w http.ResponseWriter, r *http.Request) {
+// IssuesUnlock unlocks an issue's conversation.
+func IssuesUnlock(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
 			Owner  string `json:"owner"  zeit:"required"`
