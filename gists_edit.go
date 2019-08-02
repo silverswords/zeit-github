@@ -11,7 +11,7 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// GistsEdit  edit a gist for the user.
+// GistsEdit edits a gist for the user.
 func GistsEdit(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {

@@ -10,7 +10,7 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// IssuesGet Get a single issue.
+// IssuesGet gets a single issue.
 func IssuesGet(w http.ResponseWriter, r *http.Request) {
 	var (
 		github struct {
