@@ -1,10 +1,10 @@
 github.com/golang/protobuf v1.2.0/go.mod h1:6lQm79b+lXiMfvg/cZm0SGofjICqVBUtrP5yJMmIC1U=
-github.com/google/go-github/v27 v27.0.1 h1:sSMFSShNn4VnqCqs+qhab6TS3uQc+uVR6TD1bW6MavM=
-github.com/google/go-github/v27 v27.0.1/go.mod h1:/0Gr8pJ55COkmv+S/yPKCczSkUPIM/LnFyubufRNIS0=
+github.com/google/go-github/v27 v27.0.4 h1:N/EEqsvJLgqTbepTiMBz+12KhwLovv6YvwpRezd+4Fg=
+github.com/google/go-github/v27 v27.0.4/go.mod h1:/0Gr8pJ55COkmv+S/yPKCczSkUPIM/LnFyubufRNIS0=
 github.com/google/go-querystring v1.0.0 h1:Xkwi/a1rcvNg1PPYe5vI8GbeBY/jrVuDX5ASuANWTrk=
 github.com/google/go-querystring v1.0.0/go.mod h1:odCYkC5MyYFN7vkCjXpyrEuKhc/BUO6wN/zVPAxq5ck=
-github.com/silverswords/clouds v0.0.0-20190722023419-b727c6e87d08 h1:1zt/AFrbxmKhniDHZ/mXMAzFwL/ju9atAW9ei8SijSY=
-github.com/silverswords/clouds v0.0.0-20190722023419-b727c6e87d08/go.mod h1:2cTB0pAqUQPrRCw1CmuUi7hwLthE+7CA4i1p77bsN8M=
+github.com/silverswords/clouds v0.0.0-20190802092719-dfbb1ac12243 h1:OZdtyoriEdbHzBxlyaH5BNkAQdzCHxOAFsCFMr33/fk=
+github.com/silverswords/clouds v0.0.0-20190802092719-dfbb1ac12243/go.mod h1:Oe5kkFFkB1NCPNDA+0qwKNDyws34MctNy6asNboqTfM=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2 h1:VklqNMn3ovrHsnt90PveolxSbWFaJdECFbxSq0Mqo2M=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
 golang.org/x/net v0.0.0-20190311183353-d8887717615a h1:oWX7TPOiFAMXLq8o0ikBYfCJVlRHBcsciT5bXOrH628=
