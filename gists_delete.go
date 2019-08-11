@@ -31,16 +31,15 @@ func GistsDelete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	token := c.Request.Header
-	t := token.Get("Authorization")
-	if t == "" {
+	token := c.Request.Header.Get("Authorization")
+	if token == "" {
 		c.WriteJSON(http.StatusUnauthorized, cloudpkgs.H{"status": http.StatusUnauthorized})
 		return
 	}
 
 	ctx := context.Background()
 	ts := oauth2.StaticTokenSource(
-		&oauth2.Token{AccessToken: t},
+		&oauth2.Token{AccessToken: token},
 	)
 
 	tc := oauth2.NewClient(ctx, ts)
