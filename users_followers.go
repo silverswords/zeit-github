@@ -40,8 +40,7 @@ func UsersFollowers(w http.ResponseWriter, r *http.Request) {
 	ctx := context.Background()
 
 	if github.User == "" {
-		token := c.Request.Header
-		t := token.Get("Authorization")
+		t := c.Request.Header.Get("Authorization")
 
 		if t == "" {
 			c.WriteJSON(http.StatusUnauthorized, cloudpkgs.H{"status": http.StatusUnauthorized})

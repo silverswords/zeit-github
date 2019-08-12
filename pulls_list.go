@@ -43,9 +43,7 @@ func PullsList(w http.ResponseWriter, r *http.Request) {
 	}
 
 	ctx := context.Background()
-
-	token := c.Request.Header
-	t := token.Get("Authorization")
+t := c.Request.Header.Get("Authorization")
 
 	if t != "" {
 		ts := oauth2.StaticTokenSource(

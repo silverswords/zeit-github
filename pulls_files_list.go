@@ -35,9 +35,7 @@ func PullsFilesList(w http.ResponseWriter, r *http.Request) {
 		c.WriteJSON(http.StatusPreconditionRequired, cloudpkgs.H{"status": http.StatusPreconditionRequired})
 		return
 	}
-
-	token := c.Request.Header
-	t := token.Get("Authorization")
+t := c.Request.Header.Get("Authorization")
 
 	ctx := context.Background()
 	ts := oauth2.StaticTokenSource(
