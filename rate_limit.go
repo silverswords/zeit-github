@@ -14,10 +14,9 @@ func RateLimit(w http.ResponseWriter, r *http.Request) {
 	var tc *http.Client
 
 	c := cloudpkgs.NewContext(w, r)
-
 	ctx := context.Background()
-t := c.Request.Header.Get("Authorization")
 
+	t := c.Request.Header.Get("Authorization")
 	if t != "" {
 		ts := oauth2.StaticTokenSource(
 			&oauth2.Token{AccessToken: t},

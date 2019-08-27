@@ -41,7 +41,6 @@ func GistsList(w http.ResponseWriter, r *http.Request) {
 	ctx := context.Background()
 
 	if github.User == "" {
-
 		t := c.Request.Header.Get("Authorization")
 
 		if t == "" {

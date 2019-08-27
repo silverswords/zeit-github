@@ -35,7 +35,8 @@ func PullsReviewsDismiss(w http.ResponseWriter, r *http.Request) {
 		c.WriteJSON(http.StatusPreconditionRequired, cloudpkgs.H{"status": http.StatusPreconditionRequired})
 		return
 	}
-t := c.Request.Header.Get("Authorization")
+
+	t := c.Request.Header.Get("Authorization")
 	if t == "" {
 		c.WriteJSON(http.StatusUnauthorized, cloudpkgs.H{"status": http.StatusUnauthorized})
 		return

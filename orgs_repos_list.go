@@ -38,8 +38,8 @@ func OrgsRepoList(w http.ResponseWriter, r *http.Request) {
 	}
 
 	ctx := context.Background()
-t := c.Request.Header.Get("Authorization")
 
+	t := c.Request.Header.Get("Authorization")
 	if t != "" {
 		ts := oauth2.StaticTokenSource(
 			&oauth2.Token{AccessToken: t},
